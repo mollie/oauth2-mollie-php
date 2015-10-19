@@ -1,0 +1,119 @@
+![Mollie](https://www.mollie.nl/files/Mollie-Logo-Style-Small.png) 
+
+# Mollie Provider for OAuth 2.0 Client #
+
+This package provides Mollie OAuth 2.0 support for the PHP League's [OAuth 2.0 Client](https://github.com/thephpleague/oauth2-client). Visit our [API documentation](https://www.mollie.com/en/docs/oauth/overview) for more information about the Mollie implementation of OAuth2.
+
+Accepting [iDEAL](https://www.mollie.com/ideal/), [Bancontact/Mister Cash](https://www.mollie.com/mistercash/), [SOFORT Banking](https://www.mollie.com/sofort/), [Creditcard](https://www.mollie.com/creditcard/), [SEPA Bank transfer](https://www.mollie.com/overboeking/), [SEPA Direct debit](https://www.mollie.com/directdebit/), [Bitcoin](https://www.mollie.com/bitcoin/), [PayPal](https://www.mollie.com/paypal/), [Belfius Direct Net](https://www.mollie.com/belfiusdirectnet/) and [paysafecard](https://www.mollie.com/paysafecard/) online payments without fixed monthly costs or any punishing registration procedures. Just use the Mollie API to receive payments directly on your website or easily refund transactions to your customers.
+
+## Installation ##
+
+By far the easiest way to install the Mollie API client is to require it with [Composer](http://getcomposer.org/doc/00-intro.md).
+
+	$ composer require mollie/oauth-mollie-php ~1.0
+	
+	    {
+	        "require": {
+	            "mollie/oauth-mollie-php": "~1.0"
+	        }
+	    }
+
+
+You may also git checkout or [download all the files](https://github.com/mollie/oauth-mollie-php/archive/master.zip), and include the OAuth 2.0 provider manually.
+
+## Usage
+
+Usage is the same as The League's OAuth client, using `\Mollie\OAuth2\Client\Provider\Mollie` as the provider.
+
+### Authorization Code Flow
+
+```php
+$provider = new \Mollie\OAuth2\Client\Provider\Mollie([
+    'clientId'     => 'YOUR_CLIENT_ID',
+    'clientSecret' => 'YOUR_CLIENT_SECRET',
+    'redirectUri'  => 'http://your-redirect-uri',
+]);
+
+// If we don't have an authorization code then get one
+if (!isset($_GET['code']))
+{
+    // Fetch the authorization URL from the provider; this returns the
+    // urlAuthorize option and generates and applies any necessary parameters
+    // (e.g. state).
+    $authorizationUrl = $provider->getAuthorizationUrl([
+        // Optional, only use this if you want to ask for scopes the user previously denied.
+        'approval_prompt' => 'force', 
+        
+        // Optional, a list of scopes. Defaults to only 'organizations.read'.
+        'scope' => ['organizations.read', 'payments.read'], 
+    ]);
+
+    // Get the state generated for you and store it to the session.
+    $_SESSION['oauth2state'] = $provider->getState();
+
+    // Redirect the user to the authorization URL.
+    header('Location: ' . $authorizationUrl);
+    exit;
+}
+
+// Check given state against previously stored one to mitigate CSRF attack
+elseif (empty($_GET['state']) || ($_GET['state'] !== $_SESSION['oauth2state']))
+{
+    unset($_SESSION['oauth2state']);
+    exit('Invalid state');
+}
+
+else
+{
+    try
+    {
+        // Try to get an access token using the authorization code grant.
+        $accessToken = $provider->getAccessToken('authorization_code', [
+            'code' => $_GET['code']
+        ]);
+        
+        // Using the access token, we may look up details about the resource owner.
+        $resourceOwner = $provider->getResourceOwner($accessToken);
+        
+        print_r($resourceOwner->toArray())
+    }
+    catch (\League\OAuth2\Client\Provider\Exception\IdentityProviderException $e)
+    {
+        // Failed to get the access token or user details.
+        exit($e->getMessage());
+    }
+}
+```
+
+### Refreshing A Token
+
+```php
+$provider = new \Mollie\OAuth2\Client\Provider\Mollie([
+    'clientId'     => 'YOUR_CLIENT_ID',
+    'clientSecret' => 'YOUR_CLIENT_SECRET',
+    'redirectUri'  => 'http://your-redirect-uri',
+]);
+
+$grant = new \League\OAuth2\Client\Grant\RefreshToken();
+$token = $provider->getAccessToken($grant, ['refresh_token' => $refreshToken]);
+```
+
+## License ##
+[BSD (Berkeley Software Distribution) License](http://www.opensource.org/licenses/bsd-license.php).
+Copyright (c) 2015, Mollie B.V.
+
+## Support ##
+Contact: [www.mollie.com](https://www.mollie.com) — info@mollie.com — +31 20-612 88 55
+
++ [More information about iDEAL via Mollie](https://www.mollie.com/ideal/)
++ [More information about credit card via Mollie](https://www.mollie.com/creditcard/)
++ [More information about Bancontact/Mister Cash via Mollie](https://www.mollie.com/mistercash/)
++ [More information about SOFORT Banking via Mollie](https://www.mollie.com/sofort/)
++ [More information about SEPA Bank transfer via Mollie](https://www.mollie.com/overboeking/)
++ [More information about SEPA Direct debit via Mollie](https://www.mollie.com/directdebit/)
++ [More information about Bitcoin via Mollie](https://www.mollie.com/bitcoin/)
++ [More information about PayPal via Mollie](https://www.mollie.com/paypal/)
++ [More information about Belfius Direct Net via Mollie](https://www.mollie.com/belfiusdirectnet/)
++ [More information about paysafecard via Mollie](https://www.mollie.com/paysafecard/)
+
+![Powered By Mollie](https://www.mollie.com/images/badge-betaling-medium.png)
