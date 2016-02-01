@@ -1,6 +1,6 @@
 ![Mollie](https://www.mollie.nl/files/Mollie-Logo-Style-Small.png) 
 
-# Mollie Provider for OAuth 2.0 Client #
+# Mollie Provider for OAuth 2.0 Client a.k.a. Mollie Connect #
 
 This package provides Mollie OAuth 2.0 support for the PHP League's [OAuth 2.0 Client](https://github.com/thephpleague/oauth2-client). Visit our [API documentation](https://www.mollie.com/en/docs/oauth/overview) for more information about the Mollie implementation of OAuth2.
 
@@ -105,15 +105,4 @@ Copyright (c) 2015, Mollie B.V.
 ## Support ##
 Contact: [www.mollie.com](https://www.mollie.com) — info@mollie.com — +31 20-612 88 55
 
-+ [More information about iDEAL via Mollie](https://www.mollie.com/ideal/)
-+ [More information about credit card via Mollie](https://www.mollie.com/creditcard/)
-+ [More information about Bancontact/Mister Cash via Mollie](https://www.mollie.com/mistercash/)
-+ [More information about SOFORT Banking via Mollie](https://www.mollie.com/sofort/)
-+ [More information about SEPA Bank transfer via Mollie](https://www.mollie.com/banktransfer/)
-+ [More information about SEPA Direct debit via Mollie](https://www.mollie.com/directdebit/)
-+ [More information about Bitcoin via Mollie](https://www.mollie.com/bitcoin/)
-+ [More information about PayPal via Mollie](https://www.mollie.com/paypal/)
-+ [More information about Belfius Direct Net via Mollie](https://www.mollie.com/belfiusdirectnet/)
-+ [More information about paysafecard via Mollie](https://www.mollie.com/paysafecard/)
-
-![Powered By Mollie](https://www.mollie.com/images/badge-betaling-medium.png)
++ [More information about Mollie Connect](https://www.mollie.com/connect/)
