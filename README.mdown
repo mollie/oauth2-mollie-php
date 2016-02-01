@@ -4,7 +4,7 @@
 
 This package provides Mollie OAuth 2.0 support for the PHP League's [OAuth 2.0 Client](https://github.com/thephpleague/oauth2-client). Visit our [API documentation](https://www.mollie.com/en/docs/oauth/overview) for more information about the Mollie implementation of OAuth2.
 
-Use Mollie Connect (OAuth) to easily connect Mollie Merchant accounts to your application. Mollie Connect also makes it possible to charge additional fees to your costumers with [Application Fee](https://www.mollie.com/nl/docs/reference/payments/create#pfp-params).
+Use Mollie Connect (OAuth) to easily connect Mollie Merchant accounts to your application. [Mollie Connect](https://www.mollie.com/en/connect) also makes it possible to charge additional fees to your costumers with [Application Fee](https://www.mollie.com/en/docs/reference/payments/create#pfp-params).
 
 ## Installation ##
 
