@@ -1,6 +1,6 @@
 ![Mollie](https://www.mollie.nl/files/Mollie-Logo-Style-Small.png) 
 
-# Mollie Provider for OAuth 2.0 Client a.k.a. Mollie Connect #
+# Mollie Provider for Mollie Connect #
 
 This package provides Mollie OAuth 2.0 support for the PHP League's [OAuth 2.0 Client](https://github.com/thephpleague/oauth2-client). Visit our [API documentation](https://www.mollie.com/en/docs/oauth/overview) for more information about the Mollie implementation of OAuth2.
 
