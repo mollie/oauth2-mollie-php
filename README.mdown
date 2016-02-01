@@ -105,4 +105,4 @@ Copyright (c) 2015, Mollie B.V.
 ## Support ##
 Contact: [www.mollie.com](https://www.mollie.com) — info@mollie.com — +31 20-612 88 55
 
-+ [More information about Mollie Connect](https://www.mollie.com/connect/)
++ [More information about Mollie Connect](https://www.mollie.com/en/connect/)
