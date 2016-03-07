@@ -99,7 +99,11 @@ class Mollie extends AbstractProvider
 		{
 			if (isset($data['error']))
 			{
-				$message = sprintf('[%s] %s', $data['error']['type'], $data['error']['message']);
+				if (isset($data['error']['type']) && isset($data['error']['message'])) {
+					$message = sprintf('[%s] %s', $data['error']['type'], $data['error']['message']);
+				} else {
+					$message = $data['error'];
+				}
 
 				if (isset($data['error']['field']))
 				{
