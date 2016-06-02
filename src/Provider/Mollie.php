@@ -26,6 +26,26 @@ class Mollie extends AbstractProvider
 	const MOLLIE_WEB_URL = 'https://www.mollie.com';
 
 	/**
+	 * Shortcuts to the available Mollie scopes.
+	 *
+	 * In order to access the Mollie API endpoints on behalf of your app user, your
+	 * app should request the appropriate scope permissions.
+	 *
+	 * @see https://www.mollie.com/en/docs/oauth/permissions
+	 */
+	const SCOPE_PAYMENTS_READ       = 'payments.read';
+	const SCOPE_PAYMENTS_WRITE      = 'payments.write';
+	const SCOPE_REFUNDS_READ        = 'refunds.read';
+	const SCOPE_REFUNDS_WRITE       = 'refunds.write';
+	const SCOPE_CUSTOMERS_READ      = 'customers.read';
+	const SCOPE_CUSTOMERS_WRITE     = 'customers.write';
+	const SCOPE_PROFILES_READ       = 'profiles.read';
+	const SCOPE_PROFILES_WRITE      = 'profiles.write';
+	const SCOPE_SETTLEMENTS_READ    = 'settlements.read';
+	const SCOPE_ORGANIZATIONS_READ  = 'organizations.read';
+	const SCOPE_ORGANIZATIONS_WRITE = 'organizations.write';
+
+	/**
 	 * Returns the base URL for authorizing a client.
 	 *
 	 * Eg. https://oauth.service.com/authorize
@@ -51,7 +71,7 @@ class Mollie extends AbstractProvider
 	}
 
 	/**
-	 * Returns the URL for requesting the resource owner's details.
+	 * Returns the URL for requesting the app user's details.
 	 *
 	 * @param AccessToken $token
 	 * @return string
@@ -62,16 +82,16 @@ class Mollie extends AbstractProvider
 	}
 
 	/**
-	 * Returns the default scopes used by this provider.
+	 * The Mollie OAuth provider requests access to the organizations.read scope
+	 * by default to enable retrieving the app user's details.
 	 *
-	 * This should only be the scopes that are required to request the details
-	 * of the resource owner, rather than all the available scopes.
-	 *
-	 * @return array
+	 * @return string[]
 	 */
 	protected function getDefaultScopes ()
 	{
-		return ['organizations.read'];
+		return [
+			self::SCOPE_ORGANIZATIONS_READ,
+		];
 	}
 
 	/**
