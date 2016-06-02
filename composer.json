@@ -1,6 +1,5 @@
 {
     "name": "mollie/oauth2-mollie-php",
-    "version": "1.0.0",
     "description": "Mollie Provider for OAuth 2.0 Client",
     "homepage": "https://github.com/mollie/oauth2-mollie-php",
     "license": "BSD-2-Clause",
