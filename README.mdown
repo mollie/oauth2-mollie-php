@@ -45,7 +45,10 @@ if (!isset($_GET['code']))
         'approval_prompt' => 'force', 
         
         // Optional, a list of scopes. Defaults to only 'organizations.read'.
-        'scope' => ['organizations.read', 'payments.read'], 
+        'scope' => [
+	    \Mollie\OAuth2\Client\Provider\Mollie::SCOPE_ORGANIZATIONS_READ, 
+	    \Mollie\OAuth2\Client\Provider\Mollie::SCOPE_PAYMENTS_READ,
+	], 
     ]);
 
     // Get the state generated for you and store it to the session.
@@ -75,7 +78,7 @@ else
         // Using the access token, we may look up details about the resource owner.
         $resourceOwner = $provider->getResourceOwner($accessToken);
         
-        print_r($resourceOwner->toArray())
+        print_r($resourceOwner->toArray());
     }
     catch (\League\OAuth2\Client\Provider\Exception\IdentityProviderException $e)
     {
