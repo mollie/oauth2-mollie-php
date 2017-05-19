@@ -26,7 +26,7 @@ class MollieTest extends \PHPUnit_Framework_TestCase
 		$params = [];
 		$url = $this->provider->getBaseAccessTokenUrl($params);
 		$uri = parse_url($url);
-		$this->assertEquals('/oauth2/token', $uri['path']);
+		$this->assertEquals('/oauth2/tokens', $uri['path']);
 	}
 
 	public function testAuthorizationUrl()
@@ -51,7 +51,7 @@ class MollieTest extends \PHPUnit_Framework_TestCase
 		$url = $this->provider->getResourceOwnerDetailsUrl($token);
 		$uri = parse_url($url);
 
-		$this->assertEquals('/v1/organization', $uri['path']);
+		$this->assertEquals('/v1/organizations/me', $uri['path']);
 	}
 
 	public function testGetAccessToken()
@@ -133,25 +133,15 @@ class MollieTest extends \PHPUnit_Framework_TestCase
 
 		$this->assertEquals($id, $account->getId());
 		$this->assertEquals($id, $account->toArray()['id']);
-		$this->assertEquals($name, $account->getName());
 		$this->assertEquals($name, $account->toArray()['name']);
-		$this->assertEquals($email, $account->getEmail());
 		$this->assertEquals($email, $account->toArray()['email']);
-		$this->assertEquals($phone, $account->getPhone());
 		$this->assertEquals($phone, $account->toArray()['phone']);
-		$this->assertEquals($address, $account->getAddress());
 		$this->assertEquals($address, $account->toArray()['address']);
-		$this->assertEquals($postalCode, $account->getPostalCode());
 		$this->assertEquals($postalCode, $account->toArray()['postalCode']);
-		$this->assertEquals($city, $account->getCity());
 		$this->assertEquals($city, $account->toArray()['city']);
-		$this->assertEquals($country, $account->getCountry());
 		$this->assertEquals($country, $account->toArray()['country']);
-		$this->assertEquals($registrationType, $account->getRegistrationType());
 		$this->assertEquals($registrationType, $account->toArray()['registrationType']);
-		$this->assertEquals($registrationNumber, $account->getRegistrationNumber());
 		$this->assertEquals($registrationNumber, $account->toArray()['registrationNumber']);
-		$this->assertEquals($legalRepresentative, $account->getLegalRepresentative());
 		$this->assertEquals($legalRepresentative, $account->toArray()['legalRepresentative']);
 	}
 }
