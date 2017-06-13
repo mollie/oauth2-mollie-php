@@ -16,7 +16,7 @@
       "refunds", "api", "payments", "gateway"
     ],
     "require": {
-        "php": ">=5.5.0",
+        "php": ">=5.6.0",
         "league/oauth2-client": "^2.0"
     },
     "require-dev": {
