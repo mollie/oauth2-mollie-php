@@ -12,11 +12,11 @@ Use Mollie Connect (OAuth) to easily connect Mollie Merchant accounts to your ap
 
 By far the easiest way to install the Mollie API client is to require it with [Composer](http://getcomposer.org/doc/00-intro.md).
 
-	$ composer require mollie/oauth2-mollie-php ~1.0
+	$ composer require mollie/oauth2-mollie-php ^1.0
 
 	    {
 	        "require": {
-	            "mollie/oauth2-mollie-php": "~1.0"
+	            "mollie/oauth2-mollie-php": "^1.0"
 	        }
 	    }
 
