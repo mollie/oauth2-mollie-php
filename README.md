@@ -112,7 +112,7 @@ Want to help us make our API client even better? We take [pull requests](https:/
 
 ## License ##
 [BSD (Berkeley Software Distribution) License](http://www.opensource.org/licenses/bsd-license.php).
-Copyright (c) 2015-2016, Mollie B.V.
+Copyright (c) 2015-2018, Mollie B.V.
 
 ## Support ##
 Contact: [www.mollie.com](https://www.mollie.com) — info@mollie.com — +31 20-612 88 55
