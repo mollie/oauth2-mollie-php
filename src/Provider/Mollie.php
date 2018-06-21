@@ -83,7 +83,7 @@ class Mollie extends AbstractProvider
 	 */
 	public function getResourceOwnerDetailsUrl (AccessToken $token)
 	{
-		return static::MOLLIE_API_URL . '/v1/organizations/me';
+		return static::MOLLIE_API_URL . '/v2/organizations/me';
 	}
 
 	/**

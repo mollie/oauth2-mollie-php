@@ -16,8 +16,9 @@
       "refunds", "api", "payments", "gateway"
     ],
     "require": {
-        "php": ">=5.5.0",
-        "league/oauth2-client": "^1.0 || ^2.0"
+        "php": ">=5.6.0",
+        "league/oauth2-client": "^1.0 || ^2.0",
+        "mollie/mollie-api-php": "^2.0"
     },
     "require-dev": {
         "phpunit/phpunit": "^4.8|^5.7",
@@ -32,8 +33,5 @@
         "psr-4": {
             "Mollie\\OAuth2\\Client\\Test\\": "tests/src/"
         }
-    },
-    "suggest": {
-        "mollie/mollie-api-php": "Don't reinvent the wheel, use the PHP client for Mollie. Visit https://mollie.com/en/docs for more information."
     }
 }
