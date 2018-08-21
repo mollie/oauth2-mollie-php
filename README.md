@@ -1,4 +1,4 @@
-![Mollie](https://www.mollie.nl/files/Mollie-Logo-Style-Small.png) 
+![Mollie](https://www.mollie.com/files/Mollie-Logo-Style-Small.png) 
 
 [![Build Status](https://travis-ci.org/mollie/oauth2-mollie-php.svg?branch=master)](https://travis-ci.org/mollie/oauth2-mollie-php)
 

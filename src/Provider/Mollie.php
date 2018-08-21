@@ -16,7 +16,7 @@ class Mollie extends AbstractProvider
 	 *
 	 * @const string
 	 */
-	const MOLLIE_API_URL = 'https://api.mollie.nl';
+	const MOLLIE_API_URL = 'https://api.mollie.com';
 
 	/**
 	 * The base url to the Mollie web application.
