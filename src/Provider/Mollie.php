@@ -47,10 +47,10 @@ class Mollie extends AbstractProvider
 	const SCOPE_PROFILES_WRITE      = 'profiles.write';
 	const SCOPE_INVOICES_READ       = 'invoices.read';
 	const SCOPE_SETTLEMENTS_READ    = 'settlements.read';
-	const SCOPE_ORDERS_READ			= 'orders.read';
-	const SCOPE_ORDERS_WRITE		= 'orders.write';
-	const SCOPE_SHIPMENTS_READ		= 'shipments.read';
-	const SCOPE_SHIPMENTS_WRITE		= 'shipments.write';
+	const SCOPE_ORDERS_READ         = 'orders.read';
+	const SCOPE_ORDERS_WRITE        = 'orders.write';
+	const SCOPE_SHIPMENTS_READ      = 'shipments.read';
+	const SCOPE_SHIPMENTS_WRITE     = 'shipments.write';
 	const SCOPE_ORGANIZATIONS_READ  = 'organizations.read';
 	const SCOPE_ORGANIZATIONS_WRITE = 'organizations.write';
 
