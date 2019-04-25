@@ -8,8 +8,9 @@ php:
 - 7.3
 - nightly
 
-allow_failures:
-  - php: nightly
+matrix:
+  allow_failures:
+    - php: nightly
 
 dist: trusty
 sudo: false
