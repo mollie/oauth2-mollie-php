@@ -6,9 +6,10 @@ php:
 - 7.1
 - 7.2
 - 7.3
-# Nightly is now at v8.0.0 which is not supported by a lot of composer packages
-# just yet. We should probably wait untill it is more widely accepted.
-#- nightly
+- nightly
+
+allow_failures:
+  - php: nightly
 
 dist: trusty
 sudo: false
