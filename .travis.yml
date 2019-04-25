@@ -5,7 +5,10 @@ php:
 - 7.0
 - 7.1
 - 7.2
-- nightly
+- 7.3
+# Nightly is now at v8.0.0 which is not supported by a lot of composer packages
+# just yet. We should probably wait untill it is more widely accepted.
+#- nightly
 
 dist: trusty
 sudo: false
