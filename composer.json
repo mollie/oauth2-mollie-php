@@ -12,7 +12,7 @@
     "keywords": [
       "oauth", "oauth2", "client", "authorization", "authorisation",
       "mollie", "payment", "service", "ideal", "creditcard", "mistercash", "bancontact", "sofort", "sofortbanking",
-      "sepa", "bitcoin", "paypal", "paysafecard", "banktransfer", "direct debit", "belfius", "belfius direct net",
+      "sepa", "paypal", "paysafecard", "banktransfer", "direct debit", "belfius", "belfius direct net",
       "refunds", "api", "payments", "gateway"
     ],
     "require": {
