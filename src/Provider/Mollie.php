@@ -49,6 +49,8 @@ class Mollie extends AbstractProvider
 	const SCOPE_SETTLEMENTS_READ    = 'settlements.read';
 	const SCOPE_ORGANIZATIONS_READ  = 'organizations.read';
 	const SCOPE_ORGANIZATIONS_WRITE = 'organizations.write';
+	const SCOPE_ONBOARDING_READ     = 'onboarding.read';
+	const SCOPE_ONBOARDING_WRITE    = 'onboarding.write';
 
 	/**
 	 * Returns the base URL for authorizing a client.
