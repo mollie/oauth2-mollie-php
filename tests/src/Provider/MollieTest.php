@@ -1,6 +1,7 @@
 <?php namespace Mollie\OAuth2\Client\Test\Provider;
 
 use Mockery as m;
+use Mollie\OAuth2\Client\Provider\Mollie;
 
 class MollieTest extends \PHPUnit_Framework_TestCase
 {
@@ -8,8 +9,8 @@ class MollieTest extends \PHPUnit_Framework_TestCase
 
 	protected function setUp ()
 	{
-		$this->provider = new \Mollie\OAuth2\Client\Provider\Mollie([
-			'clientId'     => 'mock_client_id',
+		$this->provider = new Mollie([
+			'clientId'     => 'app_mock_client_id',
 			'clientSecret' => 'mock_secret',
 			'redirectUri'  => 'none',
 		]);
@@ -19,6 +20,18 @@ class MollieTest extends \PHPUnit_Framework_TestCase
     {
         m::close();
         parent::tearDown();
+    }
+
+    public function testClientIdShouldThrowExceptionWhenNotPrefixed()
+    {
+        $this->expectException(\DomainException::class);
+        $this->expectExceptionMessage("Mollie needs the client ID to be prefixed with " . Mollie::CLIENT_ID_PREFIX . ".");
+
+        $provider = new \Mollie\OAuth2\Client\Provider\Mollie([
+            'clientId'     => 'not_pefixed_client_id',
+            'clientSecret' => 'mock_secret',
+            'redirectUri'  => 'none',
+        ]);
     }
 
     public function testGetBaseAccessTokenUrl()

@@ -26,6 +26,13 @@ class Mollie extends AbstractProvider
 	const MOLLIE_WEB_URL = 'https://www.mollie.com';
 
 	/**
+	 * The prefix for the Client ID
+	 *
+	 * @const string
+	 */
+	const CLIENT_ID_PREFIX = 'app_';
+
+	/**
 	 * Shortcuts to the available Mollie scopes.
 	 *
 	 * In order to access the Mollie API endpoints on behalf of your app user, your
@@ -55,6 +62,15 @@ class Mollie extends AbstractProvider
 	const SCOPE_ORGANIZATIONS_WRITE = 'organizations.write';
 	const SCOPE_ONBOARDING_READ     = 'onboarding.read';
 	const SCOPE_ONBOARDING_WRITE    = 'onboarding.write';
+
+	public function __construct(array $options = [], array $collaborators = [])
+	{
+		parent::__construct($options, $collaborators);
+
+		if (!isset($options["clientId"]) && strpos($options["clientId"], self::CLIENT_ID_PREFIX) === 0) {
+			throw new \DomainException("Mollie needs the client ID to be prefixed with " . self::CLIENT_ID_PREFIX . ".");
+		}
+	}
 
 	/**
 	 * Returns the base URL for authorizing a client.
