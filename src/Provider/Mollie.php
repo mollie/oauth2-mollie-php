@@ -67,7 +67,7 @@ class Mollie extends AbstractProvider
 	{
 		parent::__construct($options, $collaborators);
 
-		if (isset($options["clientId"]) && strpos($options["clientId"], self::CLIENT_ID_PREFIX) === 0) {
+		if (isset($options["clientId"]) && strpos($options["clientId"], self::CLIENT_ID_PREFIX) !== 0) {
 			throw new \DomainException("Mollie needs the client ID to be prefixed with " . self::CLIENT_ID_PREFIX . ".");
 		}
 	}
