@@ -13,15 +13,17 @@ class MollieTest extends \PHPUnit_Framework_TestCase
     const MOCK_SECRET = 'mock_secret';
     const REDIRECT_URI = 'none';
 
+    const OPTIONS = [
+        'clientId' => self::MOCK_CLIENT_ID,
+        'clientSecret' => self::MOCK_SECRET,
+        'redirectUri' => self::REDIRECT_URI,
+    ];
+
     protected $provider;
 
     protected function setUp()
     {
-        $this->provider = new Mollie([
-            'clientId' => self::MOCK_CLIENT_ID,
-            'clientSecret' => self::MOCK_SECRET,
-            'redirectUri' => self::REDIRECT_URI,
-        ]);
+        $this->provider = new Mollie(self::OPTIONS);
     }
 
     public function tearDown()
@@ -35,7 +37,7 @@ class MollieTest extends \PHPUnit_Framework_TestCase
         $this->expectException(\DomainException::class);
         $this->expectExceptionMessage("Mollie needs the client ID to be prefixed with " . Mollie::CLIENT_ID_PREFIX . ".");
 
-        $provider = new \Mollie\OAuth2\Client\Provider\Mollie([
+        new Mollie([
             'clientId'     => 'not_pefixed_client_id',
             'clientSecret' => 'mock_secret',
             'redirectUri'  => 'none',
@@ -215,18 +217,18 @@ class MollieTest extends \PHPUnit_Framework_TestCase
 
     public function testWhenDefiningADifferentMollieApiUrlThenUseThisOnApiCalls()
     {
-        $provider = new Mollie(['clientId' => self::MOCK_CLIENT_ID, 'clientSecret' => '', 'redirectUri' => '']);
+        $options = array_merge(['mollieApiUrl' => 'https://api.mollie.nl'], self::OPTIONS);
 
-        $provider->setMollieApiUrl('https://api.mollie.nl');
+        $provider = new Mollie($options);
 
         $this->assertEquals('https://api.mollie.nl/oauth2/tokens', $provider->getBaseAccessTokenUrl([]));
     }
 
     public function testWhenDefiningADifferentMollieWebUrlThenUseThisForAuthorize()
     {
-        $provider = new Mollie(['clientId' => self::MOCK_CLIENT_ID, 'clientSecret' => '', 'redirectUri' => '']);
+        $options = array_merge(['mollieWebUrl' => 'https://www.mollie.nl'], self::OPTIONS);
 
-        $provider->setMollieWebUrl('https://www.mollie.nl');
+        $provider = new Mollie($options);
 
         list($url) = explode('?', $provider->getAuthorizationUrl());
         $this->assertEquals('https://www.mollie.nl/oauth2/authorize', $url);
