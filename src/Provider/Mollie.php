@@ -57,40 +57,40 @@ class Mollie extends AbstractProvider
 	const SCOPE_ONBOARDING_WRITE    = 'onboarding.write';
 
 	/**
-     * @var string
-     */
+	 * @var string
+	 */
 	private $mollieApiUrl = self::MOLLIE_API_URL;
 
 	/**
-     * @var string
-     */
-    private $mollieWebUrl = self::MOLLIE_WEB_URL;
+	 * @var string
+	 */
+	private $mollieWebUrl = self::MOLLIE_WEB_URL;
 
-    /**
-     * Define Mollie api URL
-     *
-     * @param string $url
-     * @return Mollie
-     */
-    public function setMollieApiUrl ($url)
-    {
-        $this->mollieApiUrl = $url;
+	/**
+	 * Define Mollie api URL
+	 *
+	 * @param string $url
+	 * @return Mollie
+	 */
+	public function setMollieApiUrl ($url)
+	{
+		$this->mollieApiUrl = $url;
 
-        return $this;
-    }
+		return $this;
+	}
 
-    /**
-     * Define Mollie web URL
-     *
-     * @param string $url
-     * @return Mollie
-     */
-    public function setMollieWebUrl ($url)
-    {
-        $this->mollieWebUrl = $url;
+	/**
+	 * Define Mollie web URL
+	 *
+	 * @param string $url
+	 * @return Mollie
+	 */
+	public function setMollieWebUrl ($url)
+	{
+		$this->mollieWebUrl = $url;
 
-        return $this;
-    }
+		return $this;
+	}
 
 	/**
 	 * Returns the base URL for authorizing a client.
