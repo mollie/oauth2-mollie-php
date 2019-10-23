@@ -63,6 +63,16 @@ class Mollie extends AbstractProvider
 	const SCOPE_ONBOARDING_READ     = 'onboarding.read';
 	const SCOPE_ONBOARDING_WRITE    = 'onboarding.write';
 
+    /**
+     * @var string
+     */
+    private $mollieApiUrl;
+
+    /**
+     * @var string
+     */
+    private $mollieWebUrl;
+
 	public function __construct(array $options = [], array $collaborators = [])
 	{
 		if (isset($options["clientId"]) && strpos($options["clientId"], self::CLIENT_ID_PREFIX) !== 0) {
@@ -75,16 +85,6 @@ class Mollie extends AbstractProvider
 
 		parent::__construct($options, $collaborators);
 	}
-
-	/**
-	 * @var string
-	 */
-	private $mollieApiUrl;
-
-	/**
-	 * @var string
-	 */
-	private $mollieWebUrl;
 
 	/**
 	 * Returns the base URL for authorizing a client.
