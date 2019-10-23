@@ -9,7 +9,7 @@ use Psr\Http\Message\ResponseInterface;
 
 class MollieTest extends \PHPUnit_Framework_TestCase
 {
-    const MOCK_CLIENT_ID = 'mock_client_id';
+    const MOCK_CLIENT_ID = 'app_mock_client_id';
     const MOCK_SECRET = 'mock_secret';
     const REDIRECT_URI = 'none';
 
@@ -215,7 +215,7 @@ class MollieTest extends \PHPUnit_Framework_TestCase
 
     public function testWhenDefiningADifferentMollieApiUrlThenUseThisOnApiCalls()
     {
-        $provider = new Mollie(['clientId' => '', 'clientSecret' => '', 'redirectUri' => '']);
+        $provider = new Mollie(['clientId' => self::MOCK_CLIENT_ID, 'clientSecret' => '', 'redirectUri' => '']);
 
         $provider->setMollieApiUrl('https://api.mollie.nl');
 
@@ -224,7 +224,7 @@ class MollieTest extends \PHPUnit_Framework_TestCase
 
     public function testWhenDefiningADifferentMollieWebUrlThenUseThisForAuthorize()
     {
-        $provider = new Mollie(['clientId' => '', 'clientSecret' => '', 'redirectUri' => '']);
+        $provider = new Mollie(['clientId' => self::MOCK_CLIENT_ID, 'clientSecret' => '', 'redirectUri' => '']);
 
         $provider->setMollieWebUrl('https://www.mollie.nl');
 
