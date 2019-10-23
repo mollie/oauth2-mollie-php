@@ -30,6 +30,18 @@ class MollieTest extends \PHPUnit_Framework_TestCase
         parent::tearDown();
     }
 
+    public function testClientIdShouldThrowExceptionWhenNotPrefixed()
+    {
+        $this->expectException(\DomainException::class);
+        $this->expectExceptionMessage("Mollie needs the client ID to be prefixed with " . Mollie::CLIENT_ID_PREFIX . ".");
+
+        $provider = new \Mollie\OAuth2\Client\Provider\Mollie([
+            'clientId'     => 'not_pefixed_client_id',
+            'clientSecret' => 'mock_secret',
+            'redirectUri'  => 'none',
+        ]);
+    }
+
     public function testGetBaseAccessTokenUrl()
     {
         $params = [];
