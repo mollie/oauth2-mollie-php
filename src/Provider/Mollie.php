@@ -66,25 +66,47 @@ class Mollie extends AbstractProvider
     /**
      * @var string
      */
-    private $mollieApiUrl;
+    private $mollieApiUrl = self::MOLLIE_API_URL;
 
     /**
      * @var string
      */
-    private $mollieWebUrl;
+    private $mollieWebUrl = self::MOLLIE_WEB_URL;
 
 	public function __construct(array $options = [], array $collaborators = [])
 	{
+        parent::__construct($options, $collaborators);
+
 		if (isset($options["clientId"]) && strpos($options["clientId"], self::CLIENT_ID_PREFIX) !== 0) {
 			throw new \DomainException("Mollie needs the client ID to be prefixed with " . self::CLIENT_ID_PREFIX . ".");
 		}
-
-		$this->mollieApiUrl = (isset($options['mollieApiUrl']) ? $options['mollieApiUrl'] : null) ?: self::MOLLIE_API_URL;
-		$this->mollieWebUrl = (isset($options['mollieWebUrl']) ? $options['mollieWebUrl'] : null) ?: self::MOLLIE_WEB_URL;
-		unset($options['mollieApiUrl'], $options['mollieWebUrl']);
-
-		parent::__construct($options, $collaborators);
 	}
+
+    /**
+     * Define Mollie api URL
+     *
+     * @param string $url
+     * @return Mollie
+     */
+    public function setMollieApiUrl ($url)
+    {
+        $this->mollieApiUrl = $url;
+
+        return $this;
+    }
+
+    /**
+     * Define Mollie web URL
+     *
+     * @param string $url
+     * @return Mollie
+     */
+    public function setMollieWebUrl ($url)
+    {
+        $this->mollieWebUrl = $url;
+
+        return $this;
+    }
 
 	/**
 	 * Returns the base URL for authorizing a client.

@@ -217,20 +217,16 @@ class MollieTest extends \PHPUnit_Framework_TestCase
 
     public function testWhenDefiningADifferentMollieApiUrlThenUseThisOnApiCalls()
     {
-        $options = array_merge(['mollieApiUrl' => 'https://api.mollie.nl'], self::OPTIONS);
+        $this->provider->setMollieApiUrl('https://api.mollie.nl');
 
-        $provider = new Mollie($options);
-
-        $this->assertEquals('https://api.mollie.nl/oauth2/tokens', $provider->getBaseAccessTokenUrl([]));
+        $this->assertEquals('https://api.mollie.nl/oauth2/tokens', $this->provider->getBaseAccessTokenUrl([]));
     }
 
     public function testWhenDefiningADifferentMollieWebUrlThenUseThisForAuthorize()
     {
-        $options = array_merge(['mollieWebUrl' => 'https://www.mollie.nl'], self::OPTIONS);
+        $this->provider->setMollieWebUrl('https://www.mollie.nl');
 
-        $provider = new Mollie($options);
-
-        list($url) = explode('?', $provider->getAuthorizationUrl());
+        list($url) = explode('?', $this->provider->getAuthorizationUrl());
         $this->assertEquals('https://www.mollie.nl/oauth2/authorize', $url);
     }
 }
