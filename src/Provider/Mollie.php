@@ -175,11 +175,19 @@ class Mollie extends AbstractProvider
             $query
         );
 
+        $options['headers'] = [
+            'client_id' => $this->clientId,
+            'client_secret' => $this->clientSecret,
+        ];
+
         $request = $this->getAuthenticatedRequest(
             self::METHOD_DELETE,
             $url,
-            ''
+            null,
+            $options
         );
+
+        var_dump($request->getHeaders());
 
         return $this->getHttpClient()->send($request);
 	}

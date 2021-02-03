@@ -1,6 +1,8 @@
 <?php namespace Mollie\OAuth2\Client\Test\Provider;
 
 use GuzzleHttp\ClientInterface;
+use GuzzleHttp\Psr7\Request;
+use GuzzleHttp\Psr7\Response;
 use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 use League\OAuth2\Client\Token\AccessToken;
 use Mockery as m;
@@ -112,6 +114,46 @@ class MollieTest extends \PHPUnit_Framework_TestCase
         $this->provider->setHttpClient($client);
 
         $result = $this->provider->revokeToken('refresh_token', 'mock_refresh_token');
+
+        $this->assertNull($result);
+    }
+
+    public function testRevokeRefreshToken()
+    {
+        $response = m::mock(ResponseInterface::class);
+        $response->shouldReceive('getStatusCode')->andReturn(204);
+
+        $client = m::mock(ClientInterface::class);
+        $client->shouldReceive('send')->times(1)->andReturn($response);
+
+        $this->provider->setHttpClient($client);
+
+        $result = $this->provider->revokeRefreshToken('mock_refresh_token');
+
+        $this->assertNull($result);
+    }
+
+    public function testRevokeAccessToken()
+    {
+        $response = m::mock(ResponseInterface::class);
+        $response->shouldReceive('getStatusCode')->andReturn(204);
+
+        $client = m::mock(ClientInterface::class);
+        $request = new Request(
+            'delete',
+            '/oauth2/tokens?token_type_hint=access_token&token=mock_access_token',
+            [
+                'client_id' => 'app_mock_client_id',
+                'client_secret' => 'mock_secret',
+                'Host' => 'api.mollie.com',
+            ]
+        ); // TODO use $this->mockHttpClient instead
+
+        $client->shouldReceive('send')->with($request)->times(1)->andReturn($response);
+
+        $this->provider->setHttpClient($client);
+
+        $result = $this->provider->revokeAccessToken('mock_access_token');
 
         $this->assertNull($result);
     }
@@ -243,5 +285,51 @@ class MollieTest extends \PHPUnit_Framework_TestCase
 
         list($url) = explode('?', $this->provider->getAuthorizationUrl());
         $this->assertEquals('https://www.mollie.nl/oauth2/authorize', $url);
+    }
+
+    protected function mockHttpClient(Request $expectedRequest, Response $response)
+    {
+        $client= $this->createMock(ClientInterface::class);
+
+        $client
+            ->expects($this->once())
+            ->method('send')
+            ->with($this->isInstanceOf(Request::class))
+            ->willReturnCallback(function (Request $request) use ($expectedRequest, $response) {
+                $this->assertEquals($expectedRequest->getMethod(), $request->getMethod(), "HTTP method must be identical");
+
+                $this->assertEquals(
+                    $expectedRequest->getUri()->getPath(),
+                    $request->getUri()->getPath(),
+                    "URI path must be identical"
+                );
+
+                $this->assertEquals(
+                    $expectedRequest->getUri()->getQuery(),
+                    $request->getUri()->getQuery(),
+                    'Query string parameters must be identical'
+                );
+
+                $requestBody = $request->getBody()->getContents();
+                $expectedBody = $expectedRequest->getBody()->getContents();
+
+                if (strlen($expectedBody) > 0 && strlen($requestBody) > 0) {
+                    $this->assertJsonStringEqualsJsonString(
+                        $expectedBody,
+                        $requestBody,
+                        "HTTP body must be identical"
+                    );
+                }
+
+                $this->assertArraySubset(
+                    $expectedRequest->getHeaders(),
+                    $request->getHeaders(),
+                    'Expected headers incomplete'
+                );
+
+                return $response;
+            });
+
+        return $client;
     }
 }
