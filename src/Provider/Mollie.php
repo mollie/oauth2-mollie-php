@@ -32,6 +32,11 @@ class Mollie extends AbstractProvider
 	 */
 	const CLIENT_ID_PREFIX = 'app_';
 
+    /**
+     * @var string HTTP method used to revoke tokens.
+     */
+    const METHOD_DELETE = 'DELETE';
+
 	/**
 	 * Shortcuts to the available Mollie scopes.
 	 *
@@ -142,6 +147,41 @@ class Mollie extends AbstractProvider
 	public function getResourceOwnerDetailsUrl (AccessToken $token)
 	{
 		return static::MOLLIE_API_URL . '/v2/organizations/me';
+	}
+
+    public function revokeAccessToken($accessToken)
+    {
+        $this->revokeToken('access_token', $accessToken);
+    }
+
+    public function revokeRefreshToken($refreshToken)
+    {
+        $this->revokeToken('refresh_token', $refreshToken);
+    }
+
+	public function revokeToken($type, $token)
+    {
+        $this->getRevokeTokenResponse([
+            'token_type_hint' => $type,
+            'token' => $token,
+        ]);
+	}
+
+    protected function getRevokeTokenResponse(array $params)
+    {
+        $query = $this->buildQueryString($params);
+        $url = $this->appendQuery(
+            $this->getBaseAccessTokenUrl([]),
+            $query
+        );
+
+        $request = $this->getAuthenticatedRequest(
+            self::METHOD_DELETE,
+            $url,
+            ''
+        );
+
+        return $this->getHttpClient()->send($request);
 	}
 
 	/**

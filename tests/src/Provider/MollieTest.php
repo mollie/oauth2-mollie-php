@@ -101,6 +101,21 @@ class MollieTest extends \PHPUnit_Framework_TestCase
         $this->assertNull($token->getResourceOwnerId());
     }
 
+    public function testRevokeToken()
+    {
+        $response = m::mock(ResponseInterface::class);
+        $response->shouldReceive('getStatusCode')->andReturn(204);
+
+        $client = m::mock(ClientInterface::class);
+        $client->shouldReceive('send')->times(1)->andReturn($response);
+
+        $this->provider->setHttpClient($client);
+
+        $result = $this->provider->revokeToken('refresh_token', 'mock_refresh_token');
+
+        $this->assertNull($result);
+    }
+
     public function testExceptionThrownWhenErrorObjectReceived()
     {
         $message = uniqid();
