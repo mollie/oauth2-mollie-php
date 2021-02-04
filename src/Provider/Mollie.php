@@ -149,45 +149,60 @@ class Mollie extends AbstractProvider
 		return static::MOLLIE_API_URL . '/v2/organizations/me';
 	}
 
+    /**
+     * @param $accessToken
+     *
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
     public function revokeAccessToken($accessToken)
     {
-        $this->revokeToken('access_token', $accessToken);
+        return $this->revokeToken('access_token', $accessToken);
     }
 
+    /**
+     * @param $refreshToken
+     *
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
     public function revokeRefreshToken($refreshToken)
     {
-        $this->revokeToken('refresh_token', $refreshToken);
+        return $this->revokeToken('refresh_token', $refreshToken);
     }
 
-	public function revokeToken($type, $token)
+    /**
+     * @param $type
+     * @param $token
+     *
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function revokeToken($type, $token)
     {
-        $this->getRevokeTokenResponse([
+        return $this->getRevokeTokenResponse([
             'token_type_hint' => $type,
             'token' => $token,
         ]);
 	}
 
+    /**
+     * @param array $params
+     *
+     * @return \Psr\Http\Message\ResponseInterface
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
     protected function getRevokeTokenResponse(array $params)
     {
-        $query = $this->buildQueryString($params);
-        $url = $this->appendQuery(
-            $this->getBaseAccessTokenUrl([]),
-            $query
-        );
+        $params['client_id'] = $this->clientId;
+        $params['client_secret'] = $this->clientSecret;
+        $params['redirect_uri'] = $this->redirectUri;
 
-        $options['headers'] = [
-            'client_id' => $this->clientId,
-            'client_secret' => $this->clientSecret,
-        ];
+        $options = ['headers' => ['content-type' => 'application/x-www-form-urlencoded']];
+        $options['body'] = $this->buildQueryString($params);
 
-        $request = $this->getAuthenticatedRequest(
+        $request = $this->getRequest(
             self::METHOD_DELETE,
-            $url,
-            null,
+            $this->getBaseAccessTokenUrl([]),
             $options
         );
-
-        var_dump($request->getHeaders());
 
         return $this->getHttpClient()->send($request);
 	}
