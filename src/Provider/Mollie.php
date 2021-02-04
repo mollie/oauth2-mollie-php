@@ -191,11 +191,9 @@ class Mollie extends AbstractProvider
      */
     protected function getRevokeTokenResponse(array $params)
     {
-        array_push($params, [
-            'client_id'     => $this->clientId,
-            'client_secret' => $this->clientSecret,
-            'redirect_uri'  => $this->redirectUri,
-        ]);
+        $params['client_id'] = $this->clientId;
+        $params['client_secret'] = $this->clientSecret;
+        $params['redirect_uri'] = $this->redirectUri;
 
         $options = ['headers' => ['content-type' => 'application/x-www-form-urlencoded']];
         $options['body'] = $this->buildQueryString($params);
