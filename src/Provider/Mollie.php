@@ -126,7 +126,7 @@ class Mollie extends AbstractProvider
 	}
 
 	/**
-	 * Returns the base URL for requesting an access token.
+	 * Returns the base URL for requesting or revoking an access token.
 	 *
 	 * Eg. https://oauth.service.com/token
 	 *
@@ -150,8 +150,11 @@ class Mollie extends AbstractProvider
 	}
 
     /**
-     * @param $accessToken
+     * Revoke a Mollie access token.
      *
+     * @param string $accessToken
+     *
+     * @return \Psr\Http\Message\ResponseInterface
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function revokeAccessToken($accessToken)
@@ -160,8 +163,11 @@ class Mollie extends AbstractProvider
     }
 
     /**
-     * @param $refreshToken
+     * Revoke a Mollie refresh token.
      *
+     * @param string $refreshToken
+     *
+     * @return \Psr\Http\Message\ResponseInterface
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function revokeRefreshToken($refreshToken)
@@ -170,9 +176,12 @@ class Mollie extends AbstractProvider
     }
 
     /**
-     * @param $type
-     * @param $token
+     * Revoke a Mollie access token or refresh token.
      *
+     * @param string $type
+     * @param string $token
+     *
+     * @return \Psr\Http\Message\ResponseInterface
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function revokeToken($type, $token)
@@ -184,6 +193,8 @@ class Mollie extends AbstractProvider
 	}
 
     /**
+     * Sends a token revocation request and returns an response instance.
+     *
      * @param array $params
      *
      * @return \Psr\Http\Message\ResponseInterface
