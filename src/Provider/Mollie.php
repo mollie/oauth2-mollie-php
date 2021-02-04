@@ -37,6 +37,16 @@ class Mollie extends AbstractProvider
      */
     const METHOD_DELETE = 'DELETE';
 
+    /**
+     * @var string Token type hint for Mollie access tokens.
+     */
+    const TOKEN_TYPE_ACCESS = 'access_token';
+
+    /**
+     * @var string Token type hint for Mollie refresh tokens.
+     */
+    const TOKEN_TYPE_REFRESH = 'refresh_token';
+
 	/**
 	 * Shortcuts to the available Mollie scopes.
 	 *
@@ -159,7 +169,7 @@ class Mollie extends AbstractProvider
      */
     public function revokeAccessToken($accessToken)
     {
-        return $this->revokeToken('access_token', $accessToken);
+        return $this->revokeToken(self::TOKEN_TYPE_ACCESS, $accessToken);
     }
 
     /**
@@ -172,7 +182,7 @@ class Mollie extends AbstractProvider
      */
     public function revokeRefreshToken($refreshToken)
     {
-        return $this->revokeToken('refresh_token', $refreshToken);
+        return $this->revokeToken(self::TOKEN_TYPE_REFRESH, $refreshToken);
     }
 
     /**
