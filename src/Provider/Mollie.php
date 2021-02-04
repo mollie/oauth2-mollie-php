@@ -156,7 +156,7 @@ class Mollie extends AbstractProvider
      */
     public function revokeAccessToken($accessToken)
     {
-        $this->revokeToken('access_token', $accessToken);
+        return $this->revokeToken('access_token', $accessToken);
     }
 
     /**
@@ -166,7 +166,7 @@ class Mollie extends AbstractProvider
      */
     public function revokeRefreshToken($refreshToken)
     {
-        $this->revokeToken('refresh_token', $refreshToken);
+        return $this->revokeToken('refresh_token', $refreshToken);
     }
 
     /**
@@ -177,7 +177,7 @@ class Mollie extends AbstractProvider
      */
     public function revokeToken($type, $token)
     {
-        $this->getRevokeTokenResponse([
+        return $this->getRevokeTokenResponse([
             'token_type_hint' => $type,
             'token' => $token,
         ]);
