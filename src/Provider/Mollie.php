@@ -149,17 +149,33 @@ class Mollie extends AbstractProvider
 		return static::MOLLIE_API_URL . '/v2/organizations/me';
 	}
 
+    /**
+     * @param $accessToken
+     *
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
     public function revokeAccessToken($accessToken)
     {
         $this->revokeToken('access_token', $accessToken);
     }
 
+    /**
+     * @param $refreshToken
+     *
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
     public function revokeRefreshToken($refreshToken)
     {
         $this->revokeToken('refresh_token', $refreshToken);
     }
 
-	public function revokeToken($type, $token)
+    /**
+     * @param $type
+     * @param $token
+     *
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function revokeToken($type, $token)
     {
         $this->getRevokeTokenResponse([
             'token_type_hint' => $type,
@@ -167,27 +183,28 @@ class Mollie extends AbstractProvider
         ]);
 	}
 
+    /**
+     * @param array $params
+     *
+     * @return \Psr\Http\Message\ResponseInterface
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
     protected function getRevokeTokenResponse(array $params)
     {
-        $query = $this->buildQueryString($params);
-        $url = $this->appendQuery(
-            $this->getBaseAccessTokenUrl([]),
-            $query
-        );
-
-        $options['headers'] = [
-            'client_id' => $this->clientId,
+        array_push($params, [
+            'client_id'     => $this->clientId,
             'client_secret' => $this->clientSecret,
-        ];
+            'redirect_uri'  => $this->redirectUri,
+        ]);
 
-        $request = $this->getAuthenticatedRequest(
+        $options = ['headers' => ['content-type' => 'application/x-www-form-urlencoded']];
+        $options['body'] = $this->buildQueryString($params);
+
+        $request = $this->getRequest(
             self::METHOD_DELETE,
-            $url,
-            null,
+            $this->getBaseAccessTokenUrl([]),
             $options
         );
-
-        var_dump($request->getHeaders());
 
         return $this->getHttpClient()->send($request);
 	}
