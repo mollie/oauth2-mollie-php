@@ -101,6 +101,57 @@ class MollieTest extends \PHPUnit_Framework_TestCase
         $this->assertNull($token->getResourceOwnerId());
     }
 
+    public function testRevokeToken()
+    {
+        $response = m::mock(ResponseInterface::class);
+        $response->shouldReceive('getBody')->andReturn('{"client_id":'.self::MOCK_CLIENT_ID.', "client_secret":'.self::MOCK_SECRET.', "redirect_uri":'.self::REDIRECT_URI.', "token_type_hint":"access_token":"mock_access_token"}');
+        $response->shouldReceive('getHeader')->andReturn(['content-type' => 'application/x-www-form-urlencoded']);
+        $response->shouldReceive('getStatusCode')->andReturn(204);
+
+        $client = m::mock(ClientInterface::class);
+        $client->shouldReceive('send')->times(1)->andReturn($response);
+
+        $this->provider->setHttpClient($client);
+
+        $result = $this->provider->revokeAccessToken('mock_access_token');
+
+        $this->assertEquals($result->getStatusCode(), 204);
+    }
+
+    public function testRevokeAccessToken()
+    {
+        $response = m::mock(ResponseInterface::class);
+        $response->shouldReceive('getBody')->andReturn('{"client_id":'.self::MOCK_CLIENT_ID.', "client_secret":'.self::MOCK_SECRET.', "redirect_uri":'.self::REDIRECT_URI.', "token_type_hint":"access_token":"mock_access_token"}');
+        $response->shouldReceive('getHeader')->andReturn(['content-type' => 'application/x-www-form-urlencoded']);
+        $response->shouldReceive('getStatusCode')->andReturn(204);
+
+        $client = m::mock(ClientInterface::class);
+        $client->shouldReceive('send')->times(1)->andReturn($response);
+
+        $this->provider->setHttpClient($client);
+
+        $result = $this->provider->revokeAccessToken('mock_access_token');
+
+        $this->assertEquals($result->getStatusCode(), 204);
+    }
+
+    public function testRevokeRefreshToken()
+    {
+        $response = m::mock(ResponseInterface::class);
+        $response->shouldReceive('getBody')->andReturn('{"client_id":'.self::MOCK_CLIENT_ID.', "client_secret":'.self::MOCK_SECRET.', "redirect_uri":'.self::REDIRECT_URI.', "token_type_hint":"refresh_token":"mock_refresh_token"}');
+        $response->shouldReceive('getHeader')->andReturn(['content-type' => 'application/x-www-form-urlencoded']);
+        $response->shouldReceive('getStatusCode')->andReturn(204);
+
+        $client = m::mock(ClientInterface::class);
+        $client->shouldReceive('send')->times(1)->andReturn($response);
+
+        $this->provider->setHttpClient($client);
+
+        $result = $this->provider->revokeRefreshToken('mock_refresh_token');
+
+        $this->assertEquals($result->getStatusCode(), 204);
+    }
+
     public function testExceptionThrownWhenErrorObjectReceived()
     {
         $message = uniqid();

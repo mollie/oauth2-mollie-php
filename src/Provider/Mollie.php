@@ -32,6 +32,21 @@ class Mollie extends AbstractProvider
 	 */
 	const CLIENT_ID_PREFIX = 'app_';
 
+    /**
+     * @var string HTTP method used to revoke tokens.
+     */
+    const METHOD_DELETE = 'DELETE';
+
+    /**
+     * @var string Token type hint for Mollie access tokens.
+     */
+    const TOKEN_TYPE_ACCESS = 'access_token';
+
+    /**
+     * @var string Token type hint for Mollie refresh tokens.
+     */
+    const TOKEN_TYPE_REFRESH = 'refresh_token';
+
 	/**
 	 * Shortcuts to the available Mollie scopes.
 	 *
@@ -121,7 +136,7 @@ class Mollie extends AbstractProvider
 	}
 
 	/**
-	 * Returns the base URL for requesting an access token.
+	 * Returns the base URL for requesting or revoking an access token.
 	 *
 	 * Eg. https://oauth.service.com/token
 	 *
@@ -142,6 +157,75 @@ class Mollie extends AbstractProvider
 	public function getResourceOwnerDetailsUrl (AccessToken $token)
 	{
 		return static::MOLLIE_API_URL . '/v2/organizations/me';
+	}
+
+    /**
+     * Revoke a Mollie access token.
+     *
+     * @param string $accessToken
+     *
+     * @return \Psr\Http\Message\ResponseInterface
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function revokeAccessToken($accessToken)
+    {
+        return $this->revokeToken(self::TOKEN_TYPE_ACCESS, $accessToken);
+    }
+
+    /**
+     * Revoke a Mollie refresh token.
+     *
+     * @param string $refreshToken
+     *
+     * @return \Psr\Http\Message\ResponseInterface
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function revokeRefreshToken($refreshToken)
+    {
+        return $this->revokeToken(self::TOKEN_TYPE_REFRESH, $refreshToken);
+    }
+
+    /**
+     * Revoke a Mollie access token or refresh token.
+     *
+     * @param string $type
+     * @param string $token
+     *
+     * @return \Psr\Http\Message\ResponseInterface
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function revokeToken($type, $token)
+    {
+        return $this->getRevokeTokenResponse([
+            'token_type_hint' => $type,
+            'token' => $token,
+        ]);
+	}
+
+    /**
+     * Sends a token revocation request and returns an response instance.
+     *
+     * @param array $params
+     *
+     * @return \Psr\Http\Message\ResponseInterface
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    protected function getRevokeTokenResponse(array $params)
+    {
+        $params['client_id'] = $this->clientId;
+        $params['client_secret'] = $this->clientSecret;
+        $params['redirect_uri'] = $this->redirectUri;
+
+        $options = ['headers' => ['content-type' => 'application/x-www-form-urlencoded']];
+        $options['body'] = $this->buildQueryString($params);
+
+        $request = $this->getRequest(
+            self::METHOD_DELETE,
+            $this->getBaseAccessTokenUrl([]),
+            $options
+        );
+
+        return $this->getHttpClient()->send($request);
 	}
 
 	/**
