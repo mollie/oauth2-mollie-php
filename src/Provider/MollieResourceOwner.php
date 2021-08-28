@@ -40,4 +40,28 @@ class MollieResourceOwner implements ResourceOwnerInterface
 	{
 		return $this->response;
 	}
+
+    /**
+     * @return string|null
+     */
+    public function getEmail()
+    {
+        return isset($this->response['email']) ? $this->response['email'] : null;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getRegistrationNumber()
+    {
+        return isset($this->response['registrationNumber']) ? $this->response['registrationNumber'] : null;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getVatNumber()
+    {
+        return isset($this->response['vatNumber']) ? $this->response['vatNumber'] : null;
+    }
 }

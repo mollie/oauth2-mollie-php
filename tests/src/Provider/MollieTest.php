@@ -5,6 +5,7 @@ use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 use League\OAuth2\Client\Token\AccessToken;
 use Mockery as m;
 use Mollie\OAuth2\Client\Provider\Mollie;
+use Mollie\OAuth2\Client\Provider\MollieResourceOwner;
 use Psr\Http\Message\ResponseInterface;
 
 class MollieTest extends \PHPUnit_Framework_TestCase
@@ -186,20 +187,25 @@ class MollieTest extends \PHPUnit_Framework_TestCase
         $accountResponse->shouldReceive('getBody')->andReturn(
             '{
                 "resource": "organization",
-                "id": "org_162634",
-                "name": "Kicks To The Face B.V.",
+                "id": "org_12345678",
+                "name": "Mollie B.V.",
                 "email": "info@mollie.com",
                 "address": {
-                    "streetAndNumber": "Keizersgracht 313",
-                    "postalCode": "1016 EE",
+                    "streetAndNumber": "Keizersgracht 126",
+                    "postalCode": "1015 CW",
                     "city": "Amsterdam",
                     "country": "NL"
                 },
-                "registrationNumber": "370355724",
+                "registrationNumber": "30204462",
+                "vatNumber": "NL815839091B01"
                 "_links": {
                     "self": {
-                        "href": "https://api.mollie.com/v2/organizations/me",
+                        "href": "https://api.mollie.com/v2/organizations/org_12345678",
                         "type": "application/hal+json"
+                    },
+                    "dashboard": {
+                        "href": "https://mollie.com/dashboard/org_12345678",
+                        "type": "text/html"
                     },
                     "chargebacks": {
                         "href": "https://api.mollie.com/v2/chargebacks",
@@ -248,22 +254,28 @@ class MollieTest extends \PHPUnit_Framework_TestCase
         $token = $this->provider->getAccessToken('authorization_code', ['code' => 'mock_authorization_code']);
         $account = $this->provider->getResourceOwner($token);
 
+        assert($account instanceof MollieResourceOwner);
+
         $array = $account->toArray();
 
-        $this->assertEquals('org_162634', $account->getId());
-        $this->assertEquals('org_162634', $array['id']);
-        $this->assertEquals('Kicks To The Face B.V.', $array['name']);
+        $this->assertEquals('org_12345678', $account->getId());
+        $this->assertEquals('org_12345678', $array['id']);
+        $this->assertEquals('Mollie B.V.', $array['name']);
         $this->assertEquals('info@mollie.com', $array['email']);
+        $this->assertEquals('info@mollie.com', $account->getEmail());
         $this->assertEquals(
             [
-                "streetAndNumber" => "Keizersgracht 313",
-                "postalCode" => "1016 EE",
+                "streetAndNumber" => "Keizersgracht 126",
+                "postalCode" => "1015 CW",
                 "city" => "Amsterdam",
                 "country" => "NL",
             ],
             $array['address']
         );
-        $this->assertEquals('370355724', $array['registrationNumber']);
+        $this->assertEquals('30204462', $array['registrationNumber']);
+        $this->assertEquals('30204462', $account->getRegistrationNumber());
+        $this->assertEquals('NL815839091B01', $array['vatNumber']);
+        $this->assertEquals('NL815839091B01', $account->getVatNumber());
     }
 
     public function testWhenDefiningADifferentMollieApiUrlThenUseThisOnApiCalls()
