@@ -4,12 +4,15 @@ use League\OAuth2\Client\Provider\AbstractProvider;
 use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 use League\OAuth2\Client\Provider\ResourceOwnerInterface;
 use League\OAuth2\Client\Token\AccessToken;
-use League\OAuth2\Client\Tool\BearerAuthorizationTrait;
+use League\OAuth2\Client\Token\AccessTokenInterface;
 use Psr\Http\Message\ResponseInterface;
 
 class Mollie extends AbstractProvider
 {
-	use BearerAuthorizationTrait;
+    /**
+     * Version of this client.
+     */
+    const CLIENT_VERSION = "2.5.0";
 
 	/**
 	 * The base url to the Mollie API.
@@ -298,4 +301,23 @@ class Mollie extends AbstractProvider
 	{
 		return new MollieResourceOwner($response);
 	}
+
+    /**
+     * Returns required authorization headers plus Mollie user agent strings.
+     *
+     * @param  AccessTokenInterface|string|null $token Either a string or an access token instance
+     * @return array
+     */
+    protected function getAuthorizationHeaders($token = null)
+    {
+        $userAgent = implode(' ', [
+            "MollieOAuth2PHP/" . self::CLIENT_VERSION,
+            "PHP/" . phpversion(),
+        ]);
+
+        return [
+            'Authorization' => 'Bearer ' . $token,
+            'User-Agent' => $userAgent,
+        ];
+    }
 }
