@@ -6,9 +6,10 @@ use League\OAuth2\Client\Token\AccessToken;
 use Mockery as m;
 use Mollie\OAuth2\Client\Provider\Mollie;
 use Mollie\OAuth2\Client\Provider\MollieResourceOwner;
+use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
 
-class MollieTest extends \PHPUnit_Framework_TestCase
+class MollieTest extends TestCase
 {
     const MOCK_CLIENT_ID = 'app_mock_client_id';
     const MOCK_SECRET = 'mock_secret';
@@ -22,12 +23,12 @@ class MollieTest extends \PHPUnit_Framework_TestCase
 
     protected $provider;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->provider = new Mollie(self::OPTIONS);
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         m::close();
         parent::tearDown();
@@ -70,7 +71,7 @@ class MollieTest extends \PHPUnit_Framework_TestCase
             'response_type' => 'code',
             'approval_prompt' => 'auto',
         ], $query);
-        $this->assertRegExp('/^[a-f0-9]{32}$/i', $this->provider->getState());
+        $this->assertMatchesRegularExpression('/^[a-f0-9]{32}$/i', $this->provider->getState());
     }
 
     public function testResourceOwnerDetailsUrl()
@@ -197,7 +198,7 @@ class MollieTest extends \PHPUnit_Framework_TestCase
                     "country": "NL"
                 },
                 "registrationNumber": "30204462",
-                "vatNumber": "NL815839091B01"
+                "vatNumber": "NL815839091B01",
                 "_links": {
                     "self": {
                         "href": "https://api.mollie.com/v2/organizations/org_12345678",
