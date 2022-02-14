@@ -3,7 +3,6 @@ parameters:
     paths:
         - %currentWorkingDirectory%/src
         - %currentWorkingDirectory%/tests
-        - %currentWorkingDirectory%/examples
     excludes_analyse:
         - %currentWorkingDirectory%/vendor
 includes:
