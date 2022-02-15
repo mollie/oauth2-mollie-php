@@ -3,7 +3,7 @@ parameters:
     paths:
         - %currentWorkingDirectory%/src
         - %currentWorkingDirectory%/tests
-    excludes_analyse:
+    excludePaths:
         - %currentWorkingDirectory%/vendor
 includes:
     - .phpstan.ignoreErrors.neon
