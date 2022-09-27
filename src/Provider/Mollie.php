@@ -80,6 +80,8 @@ class Mollie extends AbstractProvider
 	const SCOPE_ORGANIZATIONS_WRITE = 'organizations.write';
 	const SCOPE_ONBOARDING_READ     = 'onboarding.read';
 	const SCOPE_ONBOARDING_WRITE    = 'onboarding.write';
+	const SCOPE_PAYMENT_LINKS_READ	= 'payment-links.read';
+	const SCOPE_PAYMENT_LINKS_WRITE = 'payment-links.write';
 
     /**
      * @var string
