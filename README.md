@@ -1,7 +1,5 @@
 ![Mollie](https://www.mollie.com/files/Mollie-Logo-Style-Small.png) 
 
-[![Build Status](https://travis-ci.org/mollie/oauth2-mollie-php.svg?branch=master)](https://travis-ci.org/mollie/oauth2-mollie-php)
-
 # Mollie Connect in PHP #
 
 This package provides Mollie OAuth 2.0 support for the PHP League's [OAuth 2.0 Client](https://github.com/thephpleague/oauth2-client). Visit our [API documentation](https://www.mollie.com/en/docs/oauth/overview) for more information about the Mollie implementation of OAuth2.
