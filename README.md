@@ -101,6 +101,7 @@ $grant = new \League\OAuth2\Client\Grant\RefreshToken();
 $token = $provider->getAccessToken($grant, ['refresh_token' => $refreshToken]);
 ```
 
+
 ### Authenticating using the AccessToken (mollie-api-php example)
 
 After refreshing an AccessToken, here's how to use it with the [mollie-api-php package](https://www.github.com/mollie/mollie-api-php). Note that the `getToken()` method is used to obtain the access token string.
@@ -112,6 +113,35 @@ $mollie->setAccessToken($token->getToken());
 // With the correct scopes, you can now interact with Mollie's API on behalf of the Merchant
 $payments = $mollie->payments->page();
 ```
+
+### Revoking a token
+
+Both AccessTokens and RefreshTokens are revokable. Here's how to revoke an AccessToken:
+
+```php
+$provider = new \Mollie\OAuth2\Client\Provider\Mollie([
+    'clientId'     => 'YOUR_CLIENT_ID',
+    'clientSecret' => 'YOUR_CLIENT_SECRET',
+    'redirectUri'  => 'https://your-redirect-uri',
+]);
+
+$provider->revokeAccessToken($accessToken->getToken());
+```
+
+Similarly, here's how to revoke a RefreshToken:
+
+**Note: When you revoke a refresh token, all access tokens based on the same authorization grant will be revoked as well.**
+
+```php
+$provider = new \Mollie\OAuth2\Client\Provider\Mollie([
+    'clientId'     => 'YOUR_CLIENT_ID',
+    'clientSecret' => 'YOUR_CLIENT_SECRET',
+    'redirectUri'  => 'https://your-redirect-uri',
+]);
+
+$provider->revokeRefreshToken($refreshToken->getToken());
+```
+
 
 ## API documentation ##
 If you wish to learn more about our APIs, please visit the [Mollie Developer Portal](https://www.mollie.com/en/developers).
