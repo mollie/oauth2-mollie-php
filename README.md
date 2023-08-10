@@ -1,4 +1,5 @@
-![Mollie](https://www.mollie.com/files/Mollie-Logo-Style-Small.png) 
+![Mollie-Logo-Style-Small](https://github.com/mollie/oauth2-mollie-php/assets/7265703/b20c8a7f-e145-4afd-bcec-23e7015aed6c)
+
 
 # Mollie Connect in PHP #
 
