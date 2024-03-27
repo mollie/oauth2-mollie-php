@@ -1,6 +1,9 @@
-<?php namespace Mollie\OAuth2\Client\Test\Provider;
+<?php
+
+namespace Mollie\OAuth2\Client\Test\Provider;
 
 use GuzzleHttp\ClientInterface;
+use GuzzleHttp\Psr7\Utils;
 use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 use League\OAuth2\Client\Token\AccessToken;
 use Mockery as m;
@@ -86,7 +89,7 @@ class MollieTest extends TestCase
     public function testGetAccessToken()
     {
         $response = m::mock(ResponseInterface::class);
-        $response->shouldReceive('getBody')->andReturn('{"access_token":"mock_access_token", "token_type":"bearer"}');
+        $response->shouldReceive('getBody')->andReturn(Utils::streamFor('{"access_token":"mock_access_token", "token_type":"bearer"}'));
         $response->shouldReceive('getHeader')->andReturn(['content-type' => 'json']);
         $response->shouldReceive('getStatusCode')->andReturn(200);
 
@@ -106,7 +109,7 @@ class MollieTest extends TestCase
     public function testRevokeToken()
     {
         $response = m::mock(ResponseInterface::class);
-        $response->shouldReceive('getBody')->andReturn('{"client_id":'.self::MOCK_CLIENT_ID.', "client_secret":'.self::MOCK_SECRET.', "redirect_uri":'.self::REDIRECT_URI.', "token_type_hint":"access_token":"mock_access_token"}');
+        $response->shouldReceive('getBody')->andReturn('{"client_id":' . self::MOCK_CLIENT_ID . ', "client_secret":' . self::MOCK_SECRET . ', "redirect_uri":' . self::REDIRECT_URI . ', "token_type_hint":"access_token":"mock_access_token"}');
         $response->shouldReceive('getHeader')->andReturn(['content-type' => 'application/x-www-form-urlencoded']);
         $response->shouldReceive('getStatusCode')->andReturn(204);
 
@@ -123,7 +126,7 @@ class MollieTest extends TestCase
     public function testRevokeAccessToken()
     {
         $response = m::mock(ResponseInterface::class);
-        $response->shouldReceive('getBody')->andReturn('{"client_id":'.self::MOCK_CLIENT_ID.', "client_secret":'.self::MOCK_SECRET.', "redirect_uri":'.self::REDIRECT_URI.', "token_type_hint":"access_token":"mock_access_token"}');
+        $response->shouldReceive('getBody')->andReturn('{"client_id":' . self::MOCK_CLIENT_ID . ', "client_secret":' . self::MOCK_SECRET . ', "redirect_uri":' . self::REDIRECT_URI . ', "token_type_hint":"access_token":"mock_access_token"}');
         $response->shouldReceive('getHeader')->andReturn(['content-type' => 'application/x-www-form-urlencoded']);
         $response->shouldReceive('getStatusCode')->andReturn(204);
 
@@ -140,7 +143,7 @@ class MollieTest extends TestCase
     public function testRevokeRefreshToken()
     {
         $response = m::mock(ResponseInterface::class);
-        $response->shouldReceive('getBody')->andReturn('{"client_id":'.self::MOCK_CLIENT_ID.', "client_secret":'.self::MOCK_SECRET.', "redirect_uri":'.self::REDIRECT_URI.', "token_type_hint":"refresh_token":"mock_refresh_token"}');
+        $response->shouldReceive('getBody')->andReturn('{"client_id":' . self::MOCK_CLIENT_ID . ', "client_secret":' . self::MOCK_SECRET . ', "redirect_uri":' . self::REDIRECT_URI . ', "token_type_hint":"refresh_token":"mock_refresh_token"}');
         $response->shouldReceive('getHeader')->andReturn(['content-type' => 'application/x-www-form-urlencoded']);
         $response->shouldReceive('getStatusCode')->andReturn(204);
 
@@ -160,7 +163,7 @@ class MollieTest extends TestCase
         $status = rand(400, 600);
 
         $postResponse = m::mock(ResponseInterface::class);
-        $postResponse->shouldReceive('getBody')->andReturn('{"error":{"type":"request","message":"'.$message.'"}}');
+        $postResponse->shouldReceive('getBody')->andReturn(Utils::streamFor('{"error":{"type":"request","message":"' . $message . '"}}'));
         $postResponse->shouldReceive('getHeader')->andReturn(['content-type' => 'json']);
         $postResponse->shouldReceive('getStatusCode')->andReturn($status);
 
@@ -178,14 +181,14 @@ class MollieTest extends TestCase
     public function testUserData()
     {
         $postResponse = m::mock(ResponseInterface::class);
-        $postResponse->shouldReceive('getBody')->andReturn(
+        $postResponse->shouldReceive('getBody')->andReturn(Utils::streamFor(
             'access_token=mock_access_token&expires=3600&refresh_token=mock_refresh_token'
-        );
+        ));
         $postResponse->shouldReceive('getHeader')->andReturn(['content-type' => 'application/x-www-form-urlencoded']);
         $postResponse->shouldReceive('getStatusCode')->andReturn(200);
 
         $accountResponse = m::mock(ResponseInterface::class);
-        $accountResponse->shouldReceive('getBody')->andReturn(
+        $accountResponse->shouldReceive('getBody')->andReturn(Utils::streamFor(
             '{
                 "resource": "organization",
                 "id": "org_12345678",
@@ -242,7 +245,7 @@ class MollieTest extends TestCase
                     }
                 }
             }'
-        );
+        ));
         $accountResponse->shouldReceive('getHeader')->andReturn(['content-type' => 'json']);
         $accountResponse->shouldReceive('getStatusCode')->andReturn(200);
 

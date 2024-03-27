@@ -4,17 +4,18 @@ namespace Mollie\OAuth2\Client\Provider;
 
 use League\OAuth2\Client\Provider\AbstractProvider;
 use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
-use League\OAuth2\Client\Provider\ResourceOwnerInterface;
 use League\OAuth2\Client\Token\AccessToken;
-use League\OAuth2\Client\Token\AccessTokenInterface;
+use League\OAuth2\Client\Tool\BearerAuthorizationTrait;
 use Psr\Http\Message\ResponseInterface;
 
 class Mollie extends AbstractProvider
 {
+    use BearerAuthorizationTrait;
+
     /**
      * Version of this client.
      */
-    const CLIENT_VERSION = "2.7.0";
+    const CLIENT_VERSION = "2.8.0";
 
     /**
      * The base url to the Mollie API.
@@ -113,7 +114,7 @@ class Mollie extends AbstractProvider
      * @param string $url
      * @return Mollie
      */
-    public function setMollieApiUrl($url)
+    public function setMollieApiUrl($url): self
     {
         $this->mollieApiUrl = $url;
 
@@ -126,7 +127,7 @@ class Mollie extends AbstractProvider
      * @param string $url
      * @return Mollie
      */
-    public function setMollieWebUrl($url)
+    public function setMollieWebUrl($url): self
     {
         $this->mollieWebUrl = $url;
 
@@ -140,7 +141,7 @@ class Mollie extends AbstractProvider
      *
      * @return string
      */
-    public function getBaseAuthorizationUrl()
+    public function getBaseAuthorizationUrl(): string
     {
         return $this->mollieWebUrl . '/oauth2/authorize';
     }
@@ -153,7 +154,7 @@ class Mollie extends AbstractProvider
      * @param array $params
      * @return string
      */
-    public function getBaseAccessTokenUrl(array $params)
+    public function getBaseAccessTokenUrl(array $params): string
     {
         return $this->mollieApiUrl . '/oauth2/tokens';
     }
@@ -164,7 +165,7 @@ class Mollie extends AbstractProvider
      * @param AccessToken $token
      * @return string
      */
-    public function getResourceOwnerDetailsUrl(AccessToken $token)
+    public function getResourceOwnerDetailsUrl(AccessToken $token): string
     {
         return static::MOLLIE_API_URL . '/v2/organizations/me';
     }
@@ -177,7 +178,7 @@ class Mollie extends AbstractProvider
      * @return \Psr\Http\Message\ResponseInterface
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function revokeAccessToken($accessToken)
+    public function revokeAccessToken($accessToken): ResponseInterface
     {
         return $this->revokeToken(self::TOKEN_TYPE_ACCESS, $accessToken);
     }
@@ -190,7 +191,7 @@ class Mollie extends AbstractProvider
      * @return \Psr\Http\Message\ResponseInterface
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function revokeRefreshToken($refreshToken)
+    public function revokeRefreshToken($refreshToken): ResponseInterface
     {
         return $this->revokeToken(self::TOKEN_TYPE_REFRESH, $refreshToken);
     }
@@ -204,7 +205,7 @@ class Mollie extends AbstractProvider
      * @return \Psr\Http\Message\ResponseInterface
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function revokeToken($type, $token)
+    public function revokeToken($type, $token): ResponseInterface
     {
         return $this->getRevokeTokenResponse([
             'token_type_hint' => $type,
@@ -220,7 +221,7 @@ class Mollie extends AbstractProvider
      * @return \Psr\Http\Message\ResponseInterface
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    protected function getRevokeTokenResponse(array $params)
+    protected function getRevokeTokenResponse(array $params): ResponseInterface
     {
         $params['client_id'] = $this->clientId;
         $params['client_secret'] = $this->clientSecret;
@@ -244,7 +245,7 @@ class Mollie extends AbstractProvider
      *
      * @return string[]
      */
-    protected function getDefaultScopes()
+    protected function getDefaultScopes(): array
     {
         return [
             self::SCOPE_ORGANIZATIONS_READ,
@@ -257,7 +258,7 @@ class Mollie extends AbstractProvider
      *
      * @return string Scope separator, defaults to ','
      */
-    protected function getScopeSeparator()
+    protected function getScopeSeparator(): string
     {
         return ' ';
     }
@@ -270,25 +271,27 @@ class Mollie extends AbstractProvider
      * @param  array|string      $data Parsed response data
      * @return void
      */
-    protected function checkResponse(ResponseInterface $response, $data)
+    protected function checkResponse(ResponseInterface $response, $data): void
     {
-        if ($response->getStatusCode() >= 400) {
-            if (isset($data['error'])) {
-                if (isset($data['error']['type']) && isset($data['error']['message'])) {
-                    $message = sprintf('[%s] %s', $data['error']['type'], $data['error']['message']);
-                } else {
-                    $message = $data['error'];
-                }
-
-                if (isset($data['error']['field'])) {
-                    $message .= sprintf(' (field: %s)', $data['error']['field']);
-                }
-            } else {
-                $message = $response->getReasonPhrase();
-            }
-
-            throw new IdentityProviderException($message, $response->getStatusCode(), $response);
+        if ($response->getStatusCode() < 400) {
+            return;
         }
+
+        if (!isset($data['error'])) {
+            throw new IdentityProviderException($response->getReasonPhrase(), $response->getStatusCode(), $response);
+        }
+
+        if (isset($data['error']['type']) && isset($data['error']['message'])) {
+            $message = sprintf('[%s] %s', $data['error']['type'], $data['error']['message']);
+        } else {
+            $message = $data['error'];
+        }
+
+        if (isset($data['error']['field'])) {
+            $message .= sprintf(' (field: %s)', $data['error']['field']);
+        }
+
+        throw new IdentityProviderException($message, $response->getStatusCode(), $response);
     }
 
     /**
@@ -297,29 +300,27 @@ class Mollie extends AbstractProvider
      *
      * @param  array       $response
      * @param  AccessToken $token
-     * @return ResourceOwnerInterface
+     * @return MollieResourceOwner
      */
-    protected function createResourceOwner(array $response, AccessToken $token)
+    protected function createResourceOwner(array $response, AccessToken $token): MollieResourceOwner
     {
         return new MollieResourceOwner($response);
     }
 
     /**
-     * Returns required authorization headers plus Mollie user agent strings.
+     * Returns the default headers used by this provider.
      *
-     * @param  AccessTokenInterface|string|null $token Either a string or an access token instance
+     * Typically this is used to set 'Accept' or 'Content-Type' headers.
+     *
      * @return array
      */
-    protected function getAuthorizationHeaders($token = null)
+    protected function getDefaultHeaders()
     {
-        $userAgent = implode(' ', [
-            "MollieOAuth2PHP/" . self::CLIENT_VERSION,
-            "PHP/" . phpversion(),
-        ]);
-
         return [
-            'Authorization' => 'Bearer ' . $token,
-            'User-Agent' => $userAgent,
+            'User-Agent' => implode(' ', [
+                "MollieOAuth2PHP/" . self::CLIENT_VERSION,
+                "PHP/" . phpversion(),
+            ])
         ];
     }
 }

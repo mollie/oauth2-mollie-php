@@ -1,37 +1,60 @@
 {
-    "name": "mollie/oauth2-mollie-php",
-    "description": "Mollie Provider for OAuth 2.0 Client",
-    "homepage": "https://github.com/mollie/oauth2-mollie-php",
-    "license": "BSD-2-Clause",
-    "authors": [
-        {
-            "name": "Mollie B.V.",
-            "email": "info@mollie.com"
-        }
-    ],
-    "keywords": [
-      "oauth", "oauth2", "client", "authorization", "authorisation",
-      "mollie", "payment", "service", "ideal", "creditcard", "mistercash", "bancontact", "sofort", "sofortbanking",
-      "sepa", "paypal", "paysafecard", "banktransfer", "direct debit", "belfius", "belfius direct net",
-      "refunds", "api", "payments", "gateway"
-    ],
-    "require": {
-        "php": ">=7.4.0",
-        "league/oauth2-client": "^1.0 || ^2.0",
-        "mollie/mollie-api-php": "^1.19 || ^2.39"
-    },
-    "require-dev": {
-        "phpunit/phpunit": "^8.0|^9.0",
-        "mockery/mockery": "^0.9|^1.0"
-    },
-    "autoload": {
-        "psr-4": {
-            "Mollie\\OAuth2\\Client\\": "src/"
-        }
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "Mollie\\OAuth2\\Client\\Test\\": "tests/src/"
-        }
+  "name": "mollie/oauth2-mollie-php",
+  "description": "Mollie Provider for OAuth 2.0 Client",
+  "homepage": "https://github.com/mollie/oauth2-mollie-php",
+  "license": "BSD-2-Clause",
+  "authors": [
+    {
+      "name": "Mollie B.V.",
+      "email": "info@mollie.com"
     }
+  ],
+  "keywords": [
+    "oauth",
+    "oauth2",
+    "client",
+    "authorization",
+    "authorisation",
+    "mollie",
+    "payment",
+    "service",
+    "ideal",
+    "creditcard",
+    "mistercash",
+    "bancontact",
+    "sofort",
+    "sofortbanking",
+    "sepa",
+    "paypal",
+    "paysafecard",
+    "banktransfer",
+    "direct debit",
+    "belfius",
+    "belfius direct net",
+    "refunds",
+    "api",
+    "payments",
+    "gateway"
+  ],
+  "require": {
+    "php": "^7.4|^8.0",
+    "league/oauth2-client": "^2.7"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^9.6|^10.0",
+    "mockery/mockery": "^1.5"
+  },
+  "suggest": {
+    "mollie/mollie-api-php": "To use the Mollie API client to interact with the Mollie API."
+  },
+  "autoload": {
+    "psr-4": {
+      "Mollie\\OAuth2\\Client\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Mollie\\OAuth2\\Client\\Test\\": "tests/src/"
+    }
+  }
 }

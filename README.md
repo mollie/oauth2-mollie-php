@@ -3,9 +3,9 @@
 
 # Mollie Connect in PHP #
 
-This package provides Mollie OAuth 2.0 support for the PHP League's [OAuth 2.0 Client](https://github.com/thephpleague/oauth2-client). Visit our [API documentation](https://www.mollie.com/en/docs/oauth/overview) for more information about the Mollie implementation of OAuth2.
+This package provides Mollie OAuth 2.0 support for the PHP League's [OAuth 2.0 Client](https://github.com/thephpleague/oauth2-client). Visit our [API documentation](https://docs.mollie.com/connect/getting-started) for more information about the Mollie implementation of OAuth2.
 
-Use Mollie Connect (OAuth) to easily connect Mollie Merchant accounts to your application. [Mollie Connect](https://www.mollie.com/en/connect) also makes it possible to charge additional fees to your costumers with [Application Fee](https://www.mollie.com/en/docs/reference/payments/create#pfp-params).
+Use Mollie Connect (OAuth) to easily connect Mollie Merchant accounts to your application. [Mollie Connect](https://docs.mollie.com/connect/overview) also makes it possible to charge additional fees to your costumers with [Application Fee](https://docs.mollie.com/connect/application-fees).
 
 ## Installation ##
 
@@ -43,13 +43,13 @@ if (!isset($_GET['code']))
     // (e.g. state).
     $authorizationUrl = $provider->getAuthorizationUrl([
         // Optional, only use this if you want to ask for scopes the user previously denied.
-        'approval_prompt' => 'force', 
-        
+        'approval_prompt' => 'force',
+
         // Optional, a list of scopes. Defaults to only 'organizations.read'.
         'scope' => [
-	    \Mollie\OAuth2\Client\Provider\Mollie::SCOPE_ORGANIZATIONS_READ, 
+	    \Mollie\OAuth2\Client\Provider\Mollie::SCOPE_ORGANIZATIONS_READ,
 	    \Mollie\OAuth2\Client\Provider\Mollie::SCOPE_PAYMENTS_READ,
-	], 
+	],
     ]);
 
     // Get the state generated for you and store it to the session.
@@ -75,10 +75,10 @@ else
         $accessToken = $provider->getAccessToken('authorization_code', [
             'code' => $_GET['code']
         ]);
-        
+
         // Using the access token, we may look up details about the resource owner.
         $resourceOwner = $provider->getResourceOwner($accessToken);
-        
+
         print_r($resourceOwner->toArray());
     }
     catch (\League\OAuth2\Client\Provider\Exception\IdentityProviderException $e)
@@ -115,6 +115,9 @@ $mollie->setAccessToken($token->getToken());
 $payments = $mollie->payments->page();
 ```
 
+> [!NOTE]
+> In order to access the mollie api via `\Molie\Api\MollieApiClient`, the [mollie/mollie-api-php](github.com/mollie/mollie-api-php) library is required!
+
 ### Revoking a token
 
 Both AccessTokens and RefreshTokens are revokable. Here's how to revoke an AccessToken:
@@ -137,7 +140,7 @@ Similarly, here's how to revoke a RefreshToken:
 $provider = new \Mollie\OAuth2\Client\Provider\Mollie([
     'clientId'     => 'YOUR_CLIENT_ID',
     'clientSecret' => 'YOUR_CLIENT_SECRET',
-    'redirectUri'  => 'https://your-redirect-uri',
+    'redirectUri'  => 'https://your-redirect-uri',****
 ]);
 
 $provider->revokeRefreshToken($refreshToken->getToken());
