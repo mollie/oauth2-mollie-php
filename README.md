@@ -31,7 +31,7 @@ Usage is the same as The League's OAuth client, using `\Mollie\OAuth2\Client\Pro
 ```php
 $provider = new \Mollie\OAuth2\Client\Provider\Mollie([
     'clientId'     => 'YOUR_CLIENT_ID',
-    'clientSecret' => 'YOUR_CLIENT_SECRET',****
+    'clientSecret' => 'YOUR_CLIENT_SECRET',
     'redirectUri'  => 'https://your-redirect-uri',
 ]);
 
