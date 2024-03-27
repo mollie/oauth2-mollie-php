@@ -5,5 +5,3 @@ parameters:
         - %currentWorkingDirectory%/tests
     excludes_analyse:
         - %currentWorkingDirectory%/vendor
-includes:
-    - .phpstan.ignoreErrors.neon
