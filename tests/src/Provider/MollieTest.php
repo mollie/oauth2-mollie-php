@@ -89,7 +89,7 @@ class MollieTest extends TestCase
     public function testGetAccessToken()
     {
         $response = m::mock(ResponseInterface::class);
-        $response->shouldReceive('getBody')->andReturn('{"access_token":"mock_access_token", "token_type":"bearer"}');
+        $response->shouldReceive('getBody')->andReturn(Utils::streamFor('{"access_token":"mock_access_token", "token_type":"bearer"}'));
         $response->shouldReceive('getHeader')->andReturn(['content-type' => 'json']);
         $response->shouldReceive('getStatusCode')->andReturn(200);
 
