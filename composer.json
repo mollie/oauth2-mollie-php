@@ -44,6 +44,9 @@
     "phpunit/phpunit": "^9.6|^10.0",
     "mockery/mockery": "^1.5"
   },
+  "suggest": {
+    "mollie/mollie-api-php": "To use the Mollie API client to interact with the Mollie API."
+  },
   "autoload": {
     "psr-4": {
       "Mollie\\OAuth2\\Client\\": "src/"
