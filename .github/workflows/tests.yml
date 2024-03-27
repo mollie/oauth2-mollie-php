@@ -30,4 +30,4 @@ jobs:
           composer require "phpstan/phpstan:0.12.99"
           vendor/bin/phpstan analyse --no-progress
       - name: Execute tests
-        run: vendor/bin/phpunit --verbose
+        run: vendor/bin/phpunit
