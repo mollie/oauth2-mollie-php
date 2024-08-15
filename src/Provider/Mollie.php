@@ -29,7 +29,7 @@ class Mollie extends AbstractProvider
      *
      * @const string
      */
-    const MOLLIE_WEB_URL = 'https://www.mollie.com';
+    const MOLLIE_WEB_URL = 'https://my.mollie.com';
 
     /**
      * The prefix for the Client ID
