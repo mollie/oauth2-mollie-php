@@ -65,7 +65,7 @@ class MollieTest extends TestCase
         list($url, $queryString) = explode('?', $authUrl);
         parse_str($queryString, $query);
 
-        $this->assertEquals('https://www.mollie.com/oauth2/authorize', $url);
+        $this->assertEquals('https://my.mollie.com/oauth2/authorize', $url);
         $this->assertEquals([
             'state' => $this->provider->getState(),
             'client_id' => self::MOCK_CLIENT_ID,
