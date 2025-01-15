@@ -3,6 +3,7 @@
 namespace Mollie\OAuth2\Client\Test\Provider;
 
 use GuzzleHttp\ClientInterface;
+use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Utils;
 use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 use League\OAuth2\Client\Token\AccessToken;
@@ -62,7 +63,7 @@ class MollieTest extends TestCase
     {
         $authUrl = $this->provider->getAuthorizationUrl();
 
-        list($url, $queryString) = explode('?', $authUrl);
+        [$url, $queryString] = explode('?', $authUrl);
         parse_str($queryString, $query);
 
         $this->assertEquals('https://my.mollie.com/oauth2/authorize', $url);
@@ -94,7 +95,24 @@ class MollieTest extends TestCase
         $response->shouldReceive('getStatusCode')->andReturn(200);
 
         $client = m::mock(ClientInterface::class);
-        $client->shouldReceive('send')->times(1)->andReturn($response);
+        $client->shouldReceive('send')
+            ->times(1)
+            ->withArgs(function (Request $request) {
+                $this->assertEquals('POST', $request->getMethod());
+                $this->assertEquals('https://api.mollie.com/oauth2/tokens', $request->getUri()->__toString());
+                $body = $request->getBody()->__toString();
+                parse_str($body, $params);
+
+                $this->assertEquals(self::MOCK_CLIENT_ID, $params['client_id']);
+                $this->assertEquals('mock_secret', $params['client_secret']);
+                $this->assertEquals(self::REDIRECT_URI, $params['redirect_uri']);
+                $this->assertEquals('authorization_code', $params['grant_type'] ?? null);
+                $this->assertEquals('mock_authorization_code', $params['code']);
+                $this->assertFalse(isset($params['scope']));
+
+                return true;
+            })
+            ->andReturn($response);
 
         $this->provider->setHttpClient($client);
 
@@ -293,7 +311,7 @@ class MollieTest extends TestCase
     {
         $this->provider->setMollieWebUrl('https://www.mollie.nl');
 
-        list($url) = explode('?', $this->provider->getAuthorizationUrl());
+        [$url] = explode('?', $this->provider->getAuthorizationUrl());
         $this->assertEquals('https://www.mollie.nl/oauth2/authorize', $url);
     }
 }
