@@ -5,8 +5,10 @@ namespace Mollie\OAuth2\Client\Provider;
 use League\OAuth2\Client\Provider\AbstractProvider;
 use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 use League\OAuth2\Client\Token\AccessToken;
+use League\OAuth2\Client\Token\AccessTokenInterface;
 use League\OAuth2\Client\Tool\BearerAuthorizationTrait;
 use Psr\Http\Message\ResponseInterface;
+use UnexpectedValueException;
 
 class Mollie extends AbstractProvider
 {
@@ -211,6 +213,48 @@ class Mollie extends AbstractProvider
             'token_type_hint' => $type,
             'token' => $token,
         ]);
+    }
+
+    /**
+     * Requests an access token using a specified grant and option set.
+     *
+     * @param mixed $grant
+     * @param array<string, mixed> $options
+     * @return AccessTokenInterface
+     * @throws IdentityProviderException
+     * @throws UnexpectedValueException
+    */
+    public function getAccessToken($grant, array $options = [])
+    {
+        $grant = $this->verifyGrant($grant);
+
+        if (isset($options['scope']) && is_array($options['scope'])) {
+            $separator = $this->getScopeSeparator();
+            $options['scope'] = implode($separator, $options['scope']);
+        }
+
+        $params = [
+            'client_id'     => $this->clientId,
+            'client_secret' => $this->clientSecret,
+            'redirect_uri'  => $this->redirectUri,
+        ];
+
+        if (!empty($this->pkceCode)) {
+            $params['code_verifier'] = $this->pkceCode;
+        }
+
+        $params   = $grant->prepareRequestParameters($params, $options);
+        $request  = $this->getAccessTokenRequest($params);
+        $response = $this->getParsedResponse($request);
+        if (false === is_array($response)) {
+            throw new UnexpectedValueException(
+                'Invalid response received from Authorization Server. Expected JSON.'
+            );
+        }
+        $prepared = $this->prepareAccessTokenResponse($response);
+        $token    = $this->createAccessToken($prepared, $grant);
+
+        return $token;
     }
 
     /**
