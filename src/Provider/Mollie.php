@@ -17,7 +17,7 @@ class Mollie extends AbstractProvider
     /**
      * Version of this client.
      */
-    const CLIENT_VERSION = "2.8.3";
+    const CLIENT_VERSION = "2.8.4";
 
     /**
      * The base url to the Mollie API.
