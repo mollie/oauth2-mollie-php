@@ -216,48 +216,6 @@ class Mollie extends AbstractProvider
     }
 
     /**
-     * Requests an access token using a specified grant and option set.
-     *
-     * @param mixed $grant
-     * @param array<string, mixed> $options
-     * @return AccessTokenInterface
-     * @throws IdentityProviderException
-     * @throws UnexpectedValueException
-    */
-    public function getAccessToken($grant, array $options = [])
-    {
-        $grant = $this->verifyGrant($grant);
-
-        if (isset($options['scope']) && is_array($options['scope'])) {
-            $separator = $this->getScopeSeparator();
-            $options['scope'] = implode($separator, $options['scope']);
-        }
-
-        $params = [
-            'client_id'     => $this->clientId,
-            'client_secret' => $this->clientSecret,
-            'redirect_uri'  => $this->redirectUri,
-        ];
-
-        if (!empty($this->pkceCode)) {
-            $params['code_verifier'] = $this->pkceCode;
-        }
-
-        $params   = $grant->prepareRequestParameters($params, $options);
-        $request  = $this->getAccessTokenRequest($params);
-        $response = $this->getParsedResponse($request);
-        if (false === is_array($response)) {
-            throw new UnexpectedValueException(
-                'Invalid response received from Authorization Server. Expected JSON.'
-            );
-        }
-        $prepared = $this->prepareAccessTokenResponse($response);
-        $token    = $this->createAccessToken($prepared, $grant);
-
-        return $token;
-    }
-
-    /**
      * Sends a token revocation request and returns an response instance.
      *
      * @param array $params
