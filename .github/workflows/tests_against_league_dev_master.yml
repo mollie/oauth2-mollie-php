@@ -1,7 +1,5 @@
 name: "test against League dev/master"
 on:
-  push:
-  pull_request:
   schedule:
     - cron: "0 0 * * *"
 jobs:
