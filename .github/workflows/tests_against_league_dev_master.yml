@@ -1,0 +1,37 @@
+name: "test against League dev/master"
+on:
+  push:
+  pull_request:
+  schedule:
+    - cron: "0 0 * * *"
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: true
+      matrix:
+        php: [7.4, 8.0, 8.1, 8.2, 8.3]
+    name: PHP - ${{ matrix.php }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: dom, curl, libxml, mbstring, zip
+          tools: composer:v2
+          coverage: none
+      - name: Install dependencies
+        run: |
+          composer update --prefer-dist --no-interaction --no-progress
+      - name: Require league/oauth2-client dev-master
+        run: |
+          composer require "league/oauth2-client:dev-master" --no-update
+          composer update league/oauth2-client --prefer-dist --no-interaction --no-progress
+      - name: PHPStan
+        run: |
+          composer require "phpstan/phpstan:0.12.99"
+          vendor/bin/phpstan analyse --no-progress
+      - name: Execute tests
+        run: vendor/bin/phpunit
