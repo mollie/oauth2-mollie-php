@@ -63,33 +63,35 @@ class Mollie extends AbstractProvider
      *
      * @see https://docs.mollie.com/oauth/permissions
      */
-    const SCOPE_PAYMENTS_READ       = 'payments.read';
-    const SCOPE_PAYMENTS_WRITE      = 'payments.write';
-    const SCOPE_REFUNDS_READ        = 'refunds.read';
-    const SCOPE_REFUNDS_WRITE       = 'refunds.write';
-    const SCOPE_CUSTOMERS_READ      = 'customers.read';
-    const SCOPE_CUSTOMERS_WRITE     = 'customers.write';
-    const SCOPE_MANDATES_READ       = 'mandates.read';
-    const SCOPE_MANDATES_WRITE      = 'mandates.write';
-    const SCOPE_SUBSCRIPTIONS_READ  = 'subscriptions.read';
-    const SCOPE_SUBSCRIPTIONS_WRITE = 'subscriptions.write';
-    const SCOPE_PROFILES_READ       = 'profiles.read';
-    const SCOPE_PROFILES_WRITE      = 'profiles.write';
-    const SCOPE_INVOICES_READ       = 'invoices.read';
-    const SCOPE_SETTLEMENTS_READ    = 'settlements.read';
-    const SCOPE_ORDERS_READ         = 'orders.read';
-    const SCOPE_ORDERS_WRITE        = 'orders.write';
-    const SCOPE_SHIPMENTS_READ      = 'shipments.read';
-    const SCOPE_SHIPMENTS_WRITE     = 'shipments.write';
-    const SCOPE_ORGANIZATIONS_READ  = 'organizations.read';
-    const SCOPE_ORGANIZATIONS_WRITE = 'organizations.write';
-    const SCOPE_ONBOARDING_READ     = 'onboarding.read';
-    const SCOPE_ONBOARDING_WRITE    = 'onboarding.write';
-    const SCOPE_PAYMENT_LINKS_READ    = 'payment-links.read';
-    const SCOPE_PAYMENT_LINKS_WRITE = 'payment-links.write';
-    const SCOPE_BALANCES_READ        = 'balances.read';
-    const SCOPE_TERMINALS_READ       = 'terminals.read';
-    const SCOPE_TERMINALS_WRITE      = 'terminals.write';
+    const SCOPE_PAYMENTS_READ           = 'payments.read';
+    const SCOPE_PAYMENTS_WRITE          = 'payments.write';
+    const SCOPE_REFUNDS_READ            = 'refunds.read';
+    const SCOPE_REFUNDS_WRITE           = 'refunds.write';
+    const SCOPE_CUSTOMERS_READ          = 'customers.read';
+    const SCOPE_CUSTOMERS_WRITE         = 'customers.write';
+    const SCOPE_MANDATES_READ           = 'mandates.read';
+    const SCOPE_MANDATES_WRITE          = 'mandates.write';
+    const SCOPE_SUBSCRIPTIONS_READ      = 'subscriptions.read';
+    const SCOPE_SUBSCRIPTIONS_WRITE     = 'subscriptions.write';
+    const SCOPE_PROFILES_READ           = 'profiles.read';
+    const SCOPE_PROFILES_WRITE          = 'profiles.write';
+    const SCOPE_INVOICES_READ           = 'invoices.read';
+    const SCOPE_SETTLEMENTS_READ        = 'settlements.read';
+    const SCOPE_ORDERS_READ             = 'orders.read';
+    const SCOPE_ORDERS_WRITE            = 'orders.write';
+    const SCOPE_SHIPMENTS_READ          = 'shipments.read';
+    const SCOPE_SHIPMENTS_WRITE         = 'shipments.write';
+    const SCOPE_ORGANIZATIONS_READ      = 'organizations.read';
+    const SCOPE_ORGANIZATIONS_WRITE     = 'organizations.write';
+    const SCOPE_ONBOARDING_READ         = 'onboarding.read';
+    const SCOPE_ONBOARDING_WRITE        = 'onboarding.write';
+    const SCOPE_PAYMENT_LINKS_READ      = 'payment-links.read';
+    const SCOPE_PAYMENT_LINKS_WRITE     = 'payment-links.write';
+    const SCOPE_BALANCES_READ           = 'balances.read';
+    const SCOPE_TERMINALS_READ          = 'terminals.read';
+    const SCOPE_TERMINALS_WRITE         = 'terminals.write';
+    const SCOPE_BALANCE_TRANSFERS_READ  = 'balance-transfers.read';
+    const SCOPE_BALANCE_TRANSFERS_WRITE = 'balance-transfers.write';
 
     /**
      * @var string
