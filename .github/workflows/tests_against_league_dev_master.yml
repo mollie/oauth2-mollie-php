@@ -1,7 +1,5 @@
-name: tests
+name: "test against League dev/master"
 on:
-  push:
-  pull_request:
   schedule:
     - cron: "0 0 * * *"
 jobs:
@@ -25,6 +23,10 @@ jobs:
       - name: Install dependencies
         run: |
           composer update --prefer-dist --no-interaction --no-progress
+      - name: Require league/oauth2-client dev-master
+        run: |
+          composer require "league/oauth2-client:dev-master" --no-update
+          composer update league/oauth2-client --prefer-dist --no-interaction --no-progress
       - name: PHPStan
         run: |
           composer require "phpstan/phpstan:0.12.99"
