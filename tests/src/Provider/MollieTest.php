@@ -78,6 +78,17 @@ class MollieTest extends TestCase
         $this->assertMatchesRegularExpression('/^[a-f0-9]{32}$/i', $this->provider->getState());
     }
 
+    public function testAuthorizationUrlWithSessionsWriteScope()
+    {
+        $authUrl = $this->provider->getAuthorizationUrl([
+            'scope' => [Mollie::SCOPE_SESSIONS_WRITE],
+        ]);
+
+        parse_str(parse_url($authUrl, PHP_URL_QUERY), $query);
+
+        $this->assertSame('sessions.write', $query['scope']);
+    }
+
     public function testResourceOwnerDetailsUrl()
     {
         $token = m::mock(AccessToken::class);
